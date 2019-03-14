@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import cn.emg.poibatcheditor.client.EmapgoAccountClient;
 import cn.emg.poibatcheditor.common.CommonConstants;
-import cn.emg.poibatcheditor.commonjar.RoleTypeEnum;
+import cn.emg.poibatcheditor.common.RoleTypeEnum;
 import cn.emg.poibatcheditor.pojo.EmployeeModel;
 import cn.emg.poibatcheditor.pojo.LogModel;
 

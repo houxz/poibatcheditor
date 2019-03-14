@@ -25,4 +25,17 @@
 		<property name="isshow" value="true" />
 	</bean>
 	
+	<bean id="exportPOIs" class="cn.emg.poibatcheditor.auth.MenuAuthModel">
+		<property name="code" value="1002" />
+		<property name="url" value="/poibatcheditor/exportPOIs.web" />
+		<property name="label" value="导出POI" />
+		<property name="roleSet">
+			<set>
+				<value type="cn.emg.poibatcheditor.commonjar.RoleTypeEnum">ROLE_EXPORT</value>
+			</set>
+		</property>
+		<property name="enabled" value="true" />
+		<property name="isshow" value="false" />
+	</bean>
+	
 </beans>

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.DigestUtils;
 
 import cn.emg.poibatcheditor.client.EmapgoAccountClient;
-import cn.emg.poibatcheditor.commonjar.RoleTypeEnum;
+import cn.emg.poibatcheditor.common.RoleTypeEnum;
 import cn.emg.poibatcheditor.pojo.EmployeeModel;
 import cn.emg.poibatcheditor.pojo.UserRoleModel;
 import cn.emg.poibatcheditor.service.SessionService;

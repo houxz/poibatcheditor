@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import cn.emg.poibatcheditor.auth.MenuAuthModel;
 import cn.emg.poibatcheditor.common.ParamUtils;
-import cn.emg.poibatcheditor.commonjar.RoleTypeEnum;
+import cn.emg.poibatcheditor.common.RoleTypeEnum;
 import cn.emg.poibatcheditor.config.MenuConfig;
 
 @Controller

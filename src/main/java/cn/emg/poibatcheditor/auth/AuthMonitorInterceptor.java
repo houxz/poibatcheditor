@@ -11,7 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import cn.emg.poibatcheditor.commonjar.RoleTypeEnum;
+import cn.emg.poibatcheditor.common.RoleTypeEnum;
 import cn.emg.poibatcheditor.config.MenuConfig;
 
 public class AuthMonitorInterceptor extends HandlerInterceptorAdapter {

@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.emg.poibatcheditor.dao.POIModelDao" >
+  <resultMap id="BaseResultMap" type="cn.emg.poibatcheditor.pojo.POIModel" >
+    <id column="oid" property="oid" jdbcType="BIGINT" />
+    <result column="featcode" property="featcode" jdbcType="BIGINT" />
+    <result column="namec" property="namec" jdbcType="VARCHAR" />
+    <result column="namec_tsvector" property="namecTsvector" jdbcType="OTHER" />
+    <result column="datasource" property="datasource" jdbcType="ARRAY" />
+    <result column="grade" property="grade" jdbcType="VARCHAR" />
+    <result column="ver" property="ver" jdbcType="TIMESTAMP" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="optype" property="optype" jdbcType="VARCHAR" />
+    <result column="autocheck" property="autocheck" jdbcType="VARCHAR" />
+    <result column="manualcheck" property="manualcheck" jdbcType="VARCHAR" />
+    <result column="process" property="process" jdbcType="OTHER" />
+    <result column="isdel" property="isdel" jdbcType="BIT" />
+    <result column="projectid" property="projectid" jdbcType="BIGINT" />
+    <result column="editver" property="editver" jdbcType="BIGINT" />
+    <result column="geo" property="geo" jdbcType="OTHER" />
+    <result column="owner" property="owner" jdbcType="INTEGER" />
+    <result column="sortcode" property="sortcode" jdbcType="VARCHAR" />
+    <result column="confirm" property="confirm" jdbcType="VARCHAR" />
+    <result column="confirm_uid" property="confirmUid" jdbcType="BIGINT" />
+    <result column="confirm_timestamp" property="confirmTimestamp" jdbcType="TIMESTAMP" />
+    <result column="autocheck_timestamp" property="autocheckTimestamp" jdbcType="TIMESTAMP" />
+    <result column="manualcheck_timestamp" property="manualcheckTimestamp" jdbcType="TIMESTAMP" />
+    <result column="uid" property="uid" jdbcType="BIGINT" />
+    <result column="manualcheck_uid" property="manualcheckUid" jdbcType="BIGINT" />
+    <result column="newfeatcode" property="newfeatcode" jdbcType="INTEGER" />
+    <result column="newsortcode" property="newsortcode" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    oid, featcode, namec, namec_tsvector, datasource, grade, ver, updatetime, optype, 
+    autocheck, manualcheck, process, isdel, projectid, editver, geo, owner, sortcode, 
+    confirm, confirm_uid, confirm_timestamp, autocheck_timestamp, manualcheck_timestamp, 
+    uid, manualcheck_uid, newfeatcode, newsortcode
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.emg.poibatcheditor.pojo.POIModelExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from tb_poi
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_poi
+    where oid = #{oid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tb_poi
+    where oid = #{oid,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.emg.poibatcheditor.pojo.POIModelExample" >
+    delete from tb_poi
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.emg.poibatcheditor.pojo.POIModel" >
+    insert into tb_poi (oid, featcode, namec, 
+      namec_tsvector, datasource, grade, 
+      ver, updatetime, optype, 
+      autocheck, manualcheck, process, 
+      isdel, projectid, editver, 
+      geo, owner, sortcode, 
+      confirm, confirm_uid, confirm_timestamp, 
+      autocheck_timestamp, manualcheck_timestamp, 
+      uid, manualcheck_uid, newfeatcode, 
+      newsortcode)
+    values (#{oid,jdbcType=BIGINT}, #{featcode,jdbcType=BIGINT}, #{namec,jdbcType=VARCHAR}, 
+      #{namecTsvector,jdbcType=OTHER}, #{datasource,jdbcType=ARRAY}, #{grade,jdbcType=VARCHAR}, 
+      #{ver,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}, #{optype,jdbcType=VARCHAR}, 
+      #{autocheck,jdbcType=VARCHAR}, #{manualcheck,jdbcType=VARCHAR}, #{process,jdbcType=OTHER}, 
+      #{isdel,jdbcType=BIT}, #{projectid,jdbcType=BIGINT}, #{editver,jdbcType=BIGINT}, 
+      #{geo,jdbcType=OTHER}, #{owner,jdbcType=INTEGER}, #{sortcode,jdbcType=VARCHAR}, 
+      #{confirm,jdbcType=VARCHAR}, #{confirmUid,jdbcType=BIGINT}, #{confirmTimestamp,jdbcType=TIMESTAMP}, 
+      #{autocheckTimestamp,jdbcType=TIMESTAMP}, #{manualcheckTimestamp,jdbcType=TIMESTAMP}, 
+      #{uid,jdbcType=BIGINT}, #{manualcheckUid,jdbcType=BIGINT}, #{newfeatcode,jdbcType=INTEGER}, 
+      #{newsortcode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.emg.poibatcheditor.pojo.POIModel" >
+    insert into tb_poi
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="oid != null" >
+        oid,
+      </if>
+      <if test="featcode != null" >
+        featcode,
+      </if>
+      <if test="namec != null" >
+        namec,
+      </if>
+      <if test="namecTsvector != null" >
+        namec_tsvector,
+      </if>
+      <if test="datasource != null" >
+        datasource,
+      </if>
+      <if test="grade != null" >
+        grade,
+      </if>
+      <if test="ver != null" >
+        ver,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+      <if test="optype != null" >
+        optype,
+      </if>
+      <if test="autocheck != null" >
+        autocheck,
+      </if>
+      <if test="manualcheck != null" >
+        manualcheck,
+      </if>
+      <if test="process != null" >
+        process,
+      </if>
+      <if test="isdel != null" >
+        isdel,
+      </if>
+      <if test="projectid != null" >
+        projectid,
+      </if>
+      <if test="editver != null" >
+        editver,
+      </if>
+      <if test="geo != null" >
+        geo,
+      </if>
+      <if test="owner != null" >
+        owner,
+      </if>
+      <if test="sortcode != null" >
+        sortcode,
+      </if>
+      <if test="confirm != null" >
+        confirm,
+      </if>
+      <if test="confirmUid != null" >
+        confirm_uid,
+      </if>
+      <if test="confirmTimestamp != null" >
+        confirm_timestamp,
+      </if>
+      <if test="autocheckTimestamp != null" >
+        autocheck_timestamp,
+      </if>
+      <if test="manualcheckTimestamp != null" >
+        manualcheck_timestamp,
+      </if>
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="manualcheckUid != null" >
+        manualcheck_uid,
+      </if>
+      <if test="newfeatcode != null" >
+        newfeatcode,
+      </if>
+      <if test="newsortcode != null" >
+        newsortcode,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="oid != null" >
+        #{oid,jdbcType=BIGINT},
+      </if>
+      <if test="featcode != null" >
+        #{featcode,jdbcType=BIGINT},
+      </if>
+      <if test="namec != null" >
+        #{namec,jdbcType=VARCHAR},
+      </if>
+      <if test="namecTsvector != null" >
+        #{namecTsvector,jdbcType=OTHER},
+      </if>
+      <if test="datasource != null" >
+        #{datasource,jdbcType=ARRAY},
+      </if>
+      <if test="grade != null" >
+        #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="ver != null" >
+        #{ver,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="optype != null" >
+        #{optype,jdbcType=VARCHAR},
+      </if>
+      <if test="autocheck != null" >
+        #{autocheck,jdbcType=VARCHAR},
+      </if>
+      <if test="manualcheck != null" >
+        #{manualcheck,jdbcType=VARCHAR},
+      </if>
+      <if test="process != null" >
+        #{process,jdbcType=OTHER},
+      </if>
+      <if test="isdel != null" >
+        #{isdel,jdbcType=BIT},
+      </if>
+      <if test="projectid != null" >
+        #{projectid,jdbcType=BIGINT},
+      </if>
+      <if test="editver != null" >
+        #{editver,jdbcType=BIGINT},
+      </if>
+      <if test="geo != null" >
+        #{geo,jdbcType=OTHER},
+      </if>
+      <if test="owner != null" >
+        #{owner,jdbcType=INTEGER},
+      </if>
+      <if test="sortcode != null" >
+        #{sortcode,jdbcType=VARCHAR},
+      </if>
+      <if test="confirm != null" >
+        #{confirm,jdbcType=VARCHAR},
+      </if>
+      <if test="confirmUid != null" >
+        #{confirmUid,jdbcType=BIGINT},
+      </if>
+      <if test="confirmTimestamp != null" >
+        #{confirmTimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="autocheckTimestamp != null" >
+        #{autocheckTimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="manualcheckTimestamp != null" >
+        #{manualcheckTimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="manualcheckUid != null" >
+        #{manualcheckUid,jdbcType=BIGINT},
+      </if>
+      <if test="newfeatcode != null" >
+        #{newfeatcode,jdbcType=INTEGER},
+      </if>
+      <if test="newsortcode != null" >
+        #{newsortcode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.emg.poibatcheditor.pojo.POIModelExample" resultType="java.lang.Integer" >
+    select count(*) from tb_poi
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tb_poi
+    <set >
+      <if test="record.oid != null" >
+        oid = #{record.oid,jdbcType=BIGINT},
+      </if>
+      <if test="record.featcode != null" >
+        featcode = #{record.featcode,jdbcType=BIGINT},
+      </if>
+      <if test="record.namec != null" >
+        namec = #{record.namec,jdbcType=VARCHAR},
+      </if>
+      <if test="record.namecTsvector != null" >
+        namec_tsvector = #{record.namecTsvector,jdbcType=OTHER},
+      </if>
+      <if test="record.datasource != null" >
+        datasource = #{record.datasource,jdbcType=ARRAY},
+      </if>
+      <if test="record.grade != null" >
+        grade = #{record.grade,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ver != null" >
+        ver = #{record.ver,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatetime != null" >
+        updatetime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.optype != null" >
+        optype = #{record.optype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.autocheck != null" >
+        autocheck = #{record.autocheck,jdbcType=VARCHAR},
+      </if>
+      <if test="record.manualcheck != null" >
+        manualcheck = #{record.manualcheck,jdbcType=VARCHAR},
+      </if>
+      <if test="record.process != null" >
+        process = #{record.process,jdbcType=OTHER},
+      </if>
+      <if test="record.isdel != null" >
+        isdel = #{record.isdel,jdbcType=BIT},
+      </if>
+      <if test="record.projectid != null" >
+        projectid = #{record.projectid,jdbcType=BIGINT},
+      </if>
+      <if test="record.editver != null" >
+        editver = #{record.editver,jdbcType=BIGINT},
+      </if>
+      <if test="record.geo != null" >
+        geo = #{record.geo,jdbcType=OTHER},
+      </if>
+      <if test="record.owner != null" >
+        owner = #{record.owner,jdbcType=INTEGER},
+      </if>
+      <if test="record.sortcode != null" >
+        sortcode = #{record.sortcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.confirm != null" >
+        confirm = #{record.confirm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.confirmUid != null" >
+        confirm_uid = #{record.confirmUid,jdbcType=BIGINT},
+      </if>
+      <if test="record.confirmTimestamp != null" >
+        confirm_timestamp = #{record.confirmTimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.autocheckTimestamp != null" >
+        autocheck_timestamp = #{record.autocheckTimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.manualcheckTimestamp != null" >
+        manualcheck_timestamp = #{record.manualcheckTimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.uid != null" >
+        uid = #{record.uid,jdbcType=BIGINT},
+      </if>
+      <if test="record.manualcheckUid != null" >
+        manualcheck_uid = #{record.manualcheckUid,jdbcType=BIGINT},
+      </if>
+      <if test="record.newfeatcode != null" >
+        newfeatcode = #{record.newfeatcode,jdbcType=INTEGER},
+      </if>
+      <if test="record.newsortcode != null" >
+        newsortcode = #{record.newsortcode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update tb_poi
+    set oid = #{record.oid,jdbcType=BIGINT},
+      featcode = #{record.featcode,jdbcType=BIGINT},
+      namec = #{record.namec,jdbcType=VARCHAR},
+      namec_tsvector = #{record.namecTsvector,jdbcType=OTHER},
+      datasource = #{record.datasource,jdbcType=ARRAY},
+      grade = #{record.grade,jdbcType=VARCHAR},
+      ver = #{record.ver,jdbcType=TIMESTAMP},
+      updatetime = #{record.updatetime,jdbcType=TIMESTAMP},
+      optype = #{record.optype,jdbcType=VARCHAR},
+      autocheck = #{record.autocheck,jdbcType=VARCHAR},
+      manualcheck = #{record.manualcheck,jdbcType=VARCHAR},
+      process = #{record.process,jdbcType=OTHER},
+      isdel = #{record.isdel,jdbcType=BIT},
+      projectid = #{record.projectid,jdbcType=BIGINT},
+      editver = #{record.editver,jdbcType=BIGINT},
+      geo = #{record.geo,jdbcType=OTHER},
+      owner = #{record.owner,jdbcType=INTEGER},
+      sortcode = #{record.sortcode,jdbcType=VARCHAR},
+      confirm = #{record.confirm,jdbcType=VARCHAR},
+      confirm_uid = #{record.confirmUid,jdbcType=BIGINT},
+      confirm_timestamp = #{record.confirmTimestamp,jdbcType=TIMESTAMP},
+      autocheck_timestamp = #{record.autocheckTimestamp,jdbcType=TIMESTAMP},
+      manualcheck_timestamp = #{record.manualcheckTimestamp,jdbcType=TIMESTAMP},
+      uid = #{record.uid,jdbcType=BIGINT},
+      manualcheck_uid = #{record.manualcheckUid,jdbcType=BIGINT},
+      newfeatcode = #{record.newfeatcode,jdbcType=INTEGER},
+      newsortcode = #{record.newsortcode,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.emg.poibatcheditor.pojo.POIModel" >
+    update tb_poi
+    <set >
+      <if test="featcode != null" >
+        featcode = #{featcode,jdbcType=BIGINT},
+      </if>
+      <if test="namec != null" >
+        namec = #{namec,jdbcType=VARCHAR},
+      </if>
+      <if test="namecTsvector != null" >
+        namec_tsvector = #{namecTsvector,jdbcType=OTHER},
+      </if>
+      <if test="datasource != null" >
+        datasource = #{datasource,jdbcType=ARRAY},
+      </if>
+      <if test="grade != null" >
+        grade = #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="ver != null" >
+        ver = #{ver,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="optype != null" >
+        optype = #{optype,jdbcType=VARCHAR},
+      </if>
+      <if test="autocheck != null" >
+        autocheck = #{autocheck,jdbcType=VARCHAR},
+      </if>
+      <if test="manualcheck != null" >
+        manualcheck = #{manualcheck,jdbcType=VARCHAR},
+      </if>
+      <if test="process != null" >
+        process = #{process,jdbcType=OTHER},
+      </if>
+      <if test="isdel != null" >
+        isdel = #{isdel,jdbcType=BIT},
+      </if>
+      <if test="projectid != null" >
+        projectid = #{projectid,jdbcType=BIGINT},
+      </if>
+      <if test="editver != null" >
+        editver = #{editver,jdbcType=BIGINT},
+      </if>
+      <if test="geo != null" >
+        geo = #{geo,jdbcType=OTHER},
+      </if>
+      <if test="owner != null" >
+        owner = #{owner,jdbcType=INTEGER},
+      </if>
+      <if test="sortcode != null" >
+        sortcode = #{sortcode,jdbcType=VARCHAR},
+      </if>
+      <if test="confirm != null" >
+        confirm = #{confirm,jdbcType=VARCHAR},
+      </if>
+      <if test="confirmUid != null" >
+        confirm_uid = #{confirmUid,jdbcType=BIGINT},
+      </if>
+      <if test="confirmTimestamp != null" >
+        confirm_timestamp = #{confirmTimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="autocheckTimestamp != null" >
+        autocheck_timestamp = #{autocheckTimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="manualcheckTimestamp != null" >
+        manualcheck_timestamp = #{manualcheckTimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uid != null" >
+        uid = #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="manualcheckUid != null" >
+        manualcheck_uid = #{manualcheckUid,jdbcType=BIGINT},
+      </if>
+      <if test="newfeatcode != null" >
+        newfeatcode = #{newfeatcode,jdbcType=INTEGER},
+      </if>
+      <if test="newsortcode != null" >
+        newsortcode = #{newsortcode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where oid = #{oid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.emg.poibatcheditor.pojo.POIModel" >
+    update tb_poi
+    set featcode = #{featcode,jdbcType=BIGINT},
+      namec = #{namec,jdbcType=VARCHAR},
+      namec_tsvector = #{namecTsvector,jdbcType=OTHER},
+      datasource = #{datasource,jdbcType=ARRAY},
+      grade = #{grade,jdbcType=VARCHAR},
+      ver = #{ver,jdbcType=TIMESTAMP},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      optype = #{optype,jdbcType=VARCHAR},
+      autocheck = #{autocheck,jdbcType=VARCHAR},
+      manualcheck = #{manualcheck,jdbcType=VARCHAR},
+      process = #{process,jdbcType=OTHER},
+      isdel = #{isdel,jdbcType=BIT},
+      projectid = #{projectid,jdbcType=BIGINT},
+      editver = #{editver,jdbcType=BIGINT},
+      geo = #{geo,jdbcType=OTHER},
+      owner = #{owner,jdbcType=INTEGER},
+      sortcode = #{sortcode,jdbcType=VARCHAR},
+      confirm = #{confirm,jdbcType=VARCHAR},
+      confirm_uid = #{confirmUid,jdbcType=BIGINT},
+      confirm_timestamp = #{confirmTimestamp,jdbcType=TIMESTAMP},
+      autocheck_timestamp = #{autocheckTimestamp,jdbcType=TIMESTAMP},
+      manualcheck_timestamp = #{manualcheckTimestamp,jdbcType=TIMESTAMP},
+      uid = #{uid,jdbcType=BIGINT},
+      manualcheck_uid = #{manualcheckUid,jdbcType=BIGINT},
+      newfeatcode = #{newfeatcode,jdbcType=INTEGER},
+      newsortcode = #{newsortcode,jdbcType=VARCHAR}
+    where oid = #{oid,jdbcType=BIGINT}
+  </update>
+</mapper>

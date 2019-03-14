@@ -2,7 +2,7 @@ package cn.emg.poibatcheditor.auth;
 
 import java.util.Set;
 
-import cn.emg.poibatcheditor.commonjar.RoleTypeEnum;
+import cn.emg.poibatcheditor.common.RoleTypeEnum;
 
 public class MenuAuthModel implements Comparable<MenuAuthModel> {
 	private Integer code;
