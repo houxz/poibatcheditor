@@ -21,7 +21,7 @@ import cn.emg.poibatcheditor.config.MenuConfig;
 
 @Controller
 @RequestMapping("/head.web")
-public class HeadCtrl extends BaseCtrl {
+public class HeadCtrl {
 	
 	@Autowired
 	private MenuConfig menuConfig;

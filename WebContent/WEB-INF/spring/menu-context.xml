@@ -7,15 +7,15 @@
 	<bean id="menuConfig" class="cn.emg.poibatcheditor.config.MenuConfig">
 		<property name="menus">
 			<set>
-				<ref bean="edit" />
+				<ref bean="export" />
 			</set>
 		</property>
 	</bean>
 
-	<bean id="edit" class="cn.emg.poibatcheditor.auth.MenuAuthModel">
+	<bean id="export" class="cn.emg.poibatcheditor.auth.MenuAuthModel">
 		<property name="code" value="1001" />
-		<property name="url" value="/poibatcheditor/edit.web" />
-		<property name="label" value="制作" />
+		<property name="url" value="/poibatcheditor/export.web" />
+		<property name="label" value="导出" />
 		<property name="roleSet">
 			<set>
 				<value type="cn.emg.poibatcheditor.commonjar.RoleTypeEnum">ROLE_WORKER</value>

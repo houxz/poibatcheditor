@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/foot.web")
-public class FootCtrl extends BaseCtrl {
+public class FootCtrl {
 
 	@RequestMapping()
 	public String foot(Model model, HttpSession session, HttpServletRequest request) {

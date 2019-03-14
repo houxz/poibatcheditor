@@ -73,10 +73,7 @@ public class LoginCtrl extends BaseCtrl {
 
 			if (hasRole(request, RoleTypeEnum.ROLE_WORKER.toString())) {
 				logger.debug("LoginCtrl-login end to ROLE_WORKER page.");
-				return "redirect:edit.web";
-			} else if (hasRole(request, RoleTypeEnum.ROLE_CHECKER.toString())) {
-				logger.debug("LoginCtrl-login end to ROLE_CHECKER page.");
-				return "redirect:check.web";
+				return "redirect:export.web";
 			} else {
 				if (session != null) {
 					session.invalidate();
