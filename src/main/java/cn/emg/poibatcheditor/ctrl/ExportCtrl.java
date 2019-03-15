@@ -1,5 +1,10 @@
 package cn.emg.poibatcheditor.ctrl;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -27,7 +32,7 @@ import cn.emg.poibatcheditor.pojo.EmployeeModel;
 public class ExportCtrl extends BaseCtrl {
 
 	private static final Logger logger = LoggerFactory.getLogger(ExportCtrl.class);
-
+	
 	@Autowired
 	private POIModelDao poiModelDao;
 
@@ -35,7 +40,6 @@ public class ExportCtrl extends BaseCtrl {
 	public String openLader(Model model, HttpSession session, HttpServletRequest request) {
 		logger.debug("OPENLADER");
 		try {
-			// do nothing
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 		}
@@ -77,6 +81,17 @@ public class ExportCtrl extends BaseCtrl {
 		logger.debug("START");
 		ResultModel result = new ResultModel();
 		try {
+			String columnsStr = module.getParameter("columns");
+			Set<String> columns = new HashSet<String>();
+			for (String column : columnsStr.split(",")) {
+				if (column != null && !column.isEmpty() && !column.trim().isEmpty())
+					columns.add(column);
+			}
+			String code = module.getParameter("code");
+			List<Map<String, Object>> pois = poiModelDao.select(columns, code);
+			result.setResult(1);
+			result.setRows(pois);
+			result.setTotal(pois.size());
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			result.setResult(0);

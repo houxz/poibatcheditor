@@ -18,7 +18,7 @@
 		<property name="label" value="导出" />
 		<property name="roleSet">
 			<set>
-				<value type="cn.emg.poibatcheditor.commonjar.RoleTypeEnum">ROLE_WORKER</value>
+				<value type="cn.emg.poibatcheditor.common.RoleTypeEnum">ROLE_WORKER</value>
 			</set>
 		</property>
 		<property name="enabled" value="true" />
@@ -31,7 +31,7 @@
 		<property name="label" value="导出POI" />
 		<property name="roleSet">
 			<set>
-				<value type="cn.emg.poibatcheditor.commonjar.RoleTypeEnum">ROLE_EXPORT</value>
+				<value type="cn.emg.poibatcheditor.common.RoleTypeEnum">ROLE_EXPORT</value>
 			</set>
 		</property>
 		<property name="enabled" value="true" />

@@ -195,3 +195,21 @@ div#thumbnails a img {
 	width: 16%;
 	float: left;
 }
+
+.columnOn {
+	cursor: pointer;
+	width: 60px;
+	float: left;
+	margin: 2px 3px;
+}
+
+.columnOff {
+	cursor: pointer;
+	width: 60px;
+	float: left;
+	margin: 2px 3px;
+}
+
+.ui-widget-overlay.ui-front {
+	z-index: 9999!important;
+}

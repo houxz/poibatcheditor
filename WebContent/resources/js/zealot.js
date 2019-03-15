@@ -36,6 +36,7 @@ jQuery.zealot = {
 		}
 		$("body").append(html.join(""));
 		var opt = {
+			zIndex : 9999,
 			title : title,
 			autoOpen : true,
 			width : w ? w : 550,
@@ -78,6 +79,7 @@ jQuery.zealot = {
 		$("body").append(html.join(""));
 		$("#comm_checkbox").dialog({
 			modal : true,
+			zIndex : 1040,
 			width : w ? w : 400,
 			height : h ? h : 300,
 			title : title,
@@ -128,6 +130,7 @@ jQuery.zealot = {
 		$("#comm_confirmbox").dialog(
 			{
 				modal : true,
+				zIndex : 1040,
 				width : w ? w : 400,
 				height : h ? h : 300,
 				title : title,
