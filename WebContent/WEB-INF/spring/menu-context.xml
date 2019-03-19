@@ -8,6 +8,7 @@
 		<property name="menus">
 			<set>
 				<ref bean="export" />
+				<ref bean="exportPOIs" />
 			</set>
 		</property>
 	</bean>
@@ -18,7 +19,7 @@
 		<property name="label" value="导出" />
 		<property name="roleSet">
 			<set>
-				<value type="cn.emg.poibatcheditor.common.RoleTypeEnum">ROLE_WORKER</value>
+				<value type="cn.emg.poibatcheditor.common.RoleTypeEnum">ROLE_EXPORT</value>
 			</set>
 		</property>
 		<property name="enabled" value="true" />

@@ -35,12 +35,12 @@
 			continue;
 		
 		poiTagAttrnameMap.append("'");
-		poiTagAttrnameMap.append(item.getValue());
+		poiTagAttrnameMap.append(item.getValue().trim());
 		poiTagAttrnameMap.append("':'");
-		poiTagAttrnameMap.append(item.getDes());
+		poiTagAttrnameMap.append(item.getDes().trim());
 		poiTagAttrnameMap.append("',");
 		
-		poiTagAttrnameKeys.append(item.getValue());
+		poiTagAttrnameKeys.append(item.getValue().trim());
 		poiTagAttrnameKeys.append(",");
 	}
 	
@@ -158,6 +158,12 @@
 			myField.focus();
 		});
 		
+		$("input#columns").val(columns.join(","));
+		
+		$("#codeTextArea").blur(function(){
+			var code = $("#codeTextArea").val();
+			$("input#code").val(code);
+		});
 	});
 	
 	function codeempty(){
@@ -222,6 +228,19 @@
 		}, "json");
 	}
 	
+	function check() {
+		var myField = document.getElementById("codeTextArea");
+		var code = myField.value;
+		
+		if (!code) {
+			$.zealot.showMsgLabel("alert", "请配置查询条件");
+			myField.focus();
+			return false;
+		}
+		
+		return true;
+	}
+	
 </script>
 </head>
 <body>
@@ -233,7 +252,7 @@
 				data-page-list="All"
 				data-page-size="All"
 				data-toggle="pois"
-				data-height="714"
+				data-height="720"
 				data-align='center'>
 				<thead>
 					<tr>
@@ -241,7 +260,7 @@
 							<button type="button" class="btn btn-default btn-xs" id="btSearchModel" data-toggle="modal" title="查询" data-target="#searchModel">
 							    <span class="glyphicon glyphicon-search"></span>
 							</button>
-							<button type="button" class="btn btn-default btn-xs" id="btExportModel" data-toggle="modal" title="导出" data-target="#exportModel">
+							<button type="button" class="btn btn-default btn-xs" id="btExportModel" title="导出" onclick="$('#exportPOIsForm').submit();">
 							    <span class="glyphicon glyphicon-floppy-save"></span>
 							</button>
 							<button type="button" class="btn btn-default btn-xs" id="btColumnConfigModel" data-toggle="modal" title="编辑展示列" data-target="#columnConfigModel">
@@ -320,8 +339,8 @@
 			</div>
 		</div>
 	</div>
-	<div class="modal fade" id="columnConfigModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
+	<div class="modal fade bs-example-modal-lg" id="columnConfigModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
@@ -342,6 +361,12 @@
 				</div>
 			</div>
 		</div>
+	</div>
+	<div style="display: none;">
+		<form method="post" action="./exportPOIs.web" id="exportPOIsForm" onsubmit="return check();">
+		    <input id="columns" name="columns" type="hidden">
+			<input id="code" name="code" type="hidden">
+		</form>
 	</div>
 </body>
 </html>
