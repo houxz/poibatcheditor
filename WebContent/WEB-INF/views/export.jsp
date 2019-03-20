@@ -105,6 +105,7 @@
 		});
 		columns = col;
 		window.localStorage.POIBATCHEDITOR_columns = columns;
+		$("input#columns").val(columns.join(","));
 		
 		$('#poilist').bootstrapTable("destroy");
 		refreshColumns();
