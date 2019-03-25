@@ -14,10 +14,6 @@ public enum POIMainAttrnameEnum {
 	 */
 	featcode("featcode", "poi对象类型代码"),
 	/**
-	 * "linkpoiid", "关联poi的oid"
-	 */
-	linkpoiid("linkpoiid", "关联poi的oid"),
-	/**
 	 * "namec", "中文正式名称"
 	 */
 	namec("namec", "中文正式名称"),
@@ -25,10 +21,6 @@ public enum POIMainAttrnameEnum {
 	 * "owner", "所属行政区划代码"
 	 */
 	owner("owner", "所属行政区划代码"),
-	/**
-	 * "relationtype", "与所属poi的关系类型"
-	 */
-	relationtype("relationtype", "与所属poi的关系类型"),
 	/**
 	 * "sortcode", "poi系列代码"
 	 */

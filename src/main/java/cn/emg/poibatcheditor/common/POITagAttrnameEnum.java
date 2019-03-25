@@ -31,6 +31,8 @@ public enum POITagAttrnameEnum {
 	address8p("address8p", "详细地址拼音（其它）"),
 	addressnflag("addressnflag", "内门址标记"),
 	addresspicture("addresspicture", "门址照片"),
+	linkpoiid("linkpoiid", "关联POI的oid"),
+	relationtype("relationtype", "与所属POI的关系类型"),
 	ai("ai", "附加信息"),
 	ascenic("ascenic", "4a5a旅游景区标记旅游景区等级"),
 	brandptflag("brandptflag", "非品牌点标记"),

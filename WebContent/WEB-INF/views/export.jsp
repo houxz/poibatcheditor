@@ -269,6 +269,11 @@
 							</button>
 						</th>
 						<th data-field="namec">中文正式名称</th>
+						<th data-field="owner">所属行政区划代码</th>
+						<th data-field="featcode">poi对象类型代码</th>
+						<th data-field="sortcode">poi系列代码</th>
+						<th data-field="newfeatcode">新poi对象类型代码</th>
+						<th data-field="newsortcode">新poi系列代码</th>
 					</tr>
 				</thead>
 			</table>
@@ -325,8 +330,8 @@
 							<li><a href="#" onclick="codein('>=');">大于等于</a></li>
 							<li><a href="#" onclick="codein('is null');">为空</a></li>
 							<li><a href="#" onclick="codein('is not null');">不为空</a></li>
-							<li><a href="#" onclick="codein('like');">包含</a></li>
-							<li><a href="#" onclick="codein('not like');">不包含</a></li>
+							<!-- <li><a href="#" onclick="codein('like');">包含</a></li>
+							<li><a href="#" onclick="codein('not like');">不包含</a></li> -->
 						</ul>
 					</div>
 					<button type="button" class="btn btn-default" onclick="codein('(');">&nbsp;&nbsp;(&nbsp;&nbsp;</button>

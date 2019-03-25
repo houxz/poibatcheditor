@@ -41,8 +41,8 @@ public class ExportPOIsCtrl {
 	@Autowired
 	private POIModelDao poiModelDao;
 	
-	private static final String[] excelColumns = {"oid", "namec"};
-	private static final Integer[] excelColumnWidth = {5000, 12000};
+	private static final String[] excelColumns = {"oid", "namec", "owner", "featcode", "sortcode", "newfeatcode", "newsortcode"};
+	private static final Integer[] excelColumnWidth = {5000, 12000, 5000, 5000, 5000, 5000, 5000};
 	
 	@RequestMapping(method = RequestMethod.POST)
 	private void exportPOIs(HttpServletRequest request, HttpServletResponse response) {
