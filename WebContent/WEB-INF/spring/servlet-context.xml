@@ -30,6 +30,7 @@
 	<!-- 页面head配置，以及权限相关 -->
 	<beans:import resource="./menu-context.xml" />
 	
+	<context:property-placeholder location="WEB-INF/spring/defaultAuths.properties" ignore-unresolvable="true"/>
 	<context:property-placeholder location="WEB-INF/spring/webapi.properties" ignore-unresolvable="true"/>
 	
 	<tx:annotation-driven transaction-manager="transactionManagerPro" />

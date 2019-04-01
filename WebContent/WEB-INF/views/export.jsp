@@ -165,6 +165,10 @@
 			var code = $("#codeTextArea").val();
 			$("input#code").val(code);
 		});
+		$("#pwd").blur(function(){
+			var pwd = $("#pwd").val();
+			$("input#password").val(pwd);
+		});
 	});
 	
 	function codeempty(){
@@ -261,7 +265,7 @@
 							<button type="button" class="btn btn-default btn-xs" id="btSearchModel" data-toggle="modal" title="查询" data-target="#searchModel">
 							    <span class="glyphicon glyphicon-search"></span>
 							</button>
-							<button type="button" class="btn btn-default btn-xs" id="btExportModel" title="导出" onclick="$('#exportPOIsForm').submit();">
+							<button type="button" class="btn btn-default btn-xs" id="btExportModel" data-toggle="modal" title="导出" data-target="#exportModel">
 							    <span class="glyphicon glyphicon-floppy-save"></span>
 							</button>
 							<button type="button" class="btn btn-default btn-xs" id="btColumnConfigModel" data-toggle="modal" title="编辑展示列" data-target="#columnConfigModel">
@@ -370,10 +374,34 @@
 			</div>
 		</div>
 	</div>
+	<div class="modal fade" id="exportModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						&times;
+					</button>
+					<h4 class="modal-title" id="myModalLabel">
+						<strong>请输入导出密码</strong>
+					</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<input class="form-control" type="password" id="pwd">
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal" onclick="$('#exportPOIsForm').submit();">导出</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div style="display: none;">
 		<form method="post" action="./exportPOIs.web" id="exportPOIsForm" onsubmit="return check();">
 		    <input id="columns" name="columns" type="hidden">
 			<input id="code" name="code" type="hidden">
+			<input id="password" name="password" type="hidden">
 		</form>
 	</div>
 </body>

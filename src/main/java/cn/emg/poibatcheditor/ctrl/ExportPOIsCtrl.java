@@ -25,6 +25,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -38,6 +39,9 @@ public class ExportPOIsCtrl {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ExportCtrl.class);
 	
+	@Value("${export.password}")
+	private String EXPORT_PASSWORD = "emapgo123!@#";
+	
 	@Autowired
 	private POIModelDao poiModelDao;
 	
@@ -50,6 +54,14 @@ public class ExportPOIsCtrl {
 		OutputStream out = null;
 		HSSFWorkbook workBook = null;
 		try {
+			String password = ParamUtils.getParameter(request, "password");
+			if (!password.equals(EXPORT_PASSWORD)) {
+				logger.debug("PASSWORD ERROR");
+				out = response.getOutputStream();
+				out.write(new String("密码错误").getBytes("UTF-8"));
+				return;
+			}
+			
 			String columnsStr = ParamUtils.getParameter(request, "columns");
 			Set<String> columns = new HashSet<String>();
 			for (String column : columnsStr.split(",")) {
@@ -60,6 +72,8 @@ public class ExportPOIsCtrl {
 			List<Map<String, Object>> pois = poiModelDao.select(columns, code);
 			if (pois == null || pois.isEmpty()) {
 				logger.debug("BREAK");
+				out = response.getOutputStream();
+				out.write(new String("没有POI").getBytes("UTF-8"));
 				return;
 			}
 			
@@ -166,6 +180,12 @@ public class ExportPOIsCtrl {
 			}
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
+			try {
+				out = response.getOutputStream();
+				out.write(new String(e.getMessage()).getBytes("UTF-8"));
+			} catch (Exception e1) {
+				logger.error(e.getMessage(), e1);
+			}
 		} finally {
 			if(workBook != null){
 				try{
