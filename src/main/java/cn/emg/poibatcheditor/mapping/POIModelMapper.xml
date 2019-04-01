@@ -17,6 +17,8 @@
 		P.projectid,
 		P.editver,
 		P.geo,
+		ST_X(ST_GeometryN(P.geo, 1)) AS x,
+		ST_Y(ST_GeometryN(P.geo, 1)) AS y,
 		P.owner,
 		P.sortcode,
 		P.confirm,

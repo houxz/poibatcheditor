@@ -274,6 +274,8 @@
 						<th data-field="sortcode">poi系列代码</th>
 						<th data-field="newfeatcode">新poi对象类型代码</th>
 						<th data-field="newsortcode">新poi系列代码</th>
+						<th data-field="x">x坐标</th>
+						<th data-field="y">y坐标</th>
 					</tr>
 				</thead>
 			</table>
