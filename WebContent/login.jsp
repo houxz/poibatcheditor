@@ -47,7 +47,7 @@
 		<form name="f" id="f" method="post" onsubmit="return check();" class="well" style="width: 30em; margin: auto; margin-top: 150px;"
 			action="<c:url value='./login'/>">
 			<img src="./resources/images/logo.jpg" class="center-block img-rounded">
-			<h2 class="text-center">POI属性批量编辑</h2>
+			<h2 class="text-center">要素信息查询</h2>
 			<br />
 			<div class="input-group input-group-md">
 				<span class="input-group-addon">

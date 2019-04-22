@@ -7,16 +7,114 @@
 	<bean id="menuConfig" class="cn.emg.poibatcheditor.config.MenuConfig">
 		<property name="menus">
 			<set>
-				<ref bean="export" />
+				<ref bean="poi" />
+				<ref bean="lane" />
+				<ref bean="direinfo" />
+				<ref bean="junctionview" />
+				<ref bean="way" />
+				<ref bean="admin" />
+				<ref bean="boundary" />
+				<ref bean="builtuparea" />
 				<ref bean="exportPOIs" />
 			</set>
 		</property>
 	</bean>
-
-	<bean id="export" class="cn.emg.poibatcheditor.auth.MenuAuthModel">
+	
+	<bean id="poi" class="cn.emg.poibatcheditor.auth.MenuAuthModel">
 		<property name="code" value="1001" />
-		<property name="url" value="/poibatcheditor/export.web" />
-		<property name="label" value="导出" />
+		<property name="url" value="/poibatcheditor/poi.web" />
+		<property name="label" value="POI" />
+		<property name="roleSet">
+			<set>
+				<value type="cn.emg.poibatcheditor.common.RoleTypeEnum">ROLE_EXPORT</value>
+			</set>
+		</property>
+		<property name="enabled" value="true" />
+		<property name="isshow" value="true" />
+	</bean>
+	
+	<bean id="lane" class="cn.emg.poibatcheditor.auth.MenuAuthModel">
+		<property name="code" value="1002" />
+		<property name="url" value="/poibatcheditor/lane.web" />
+		<property name="label" value="车道" />
+		<property name="roleSet">
+			<set>
+				<value type="cn.emg.poibatcheditor.common.RoleTypeEnum">ROLE_EXPORT</value>
+			</set>
+		</property>
+		<property name="enabled" value="true" />
+		<property name="isshow" value="true" />
+	</bean>
+	
+	<bean id="direinfo" class="cn.emg.poibatcheditor.auth.MenuAuthModel">
+		<property name="code" value="1003" />
+		<property name="url" value="/poibatcheditor/direinfo.web" />
+		<property name="label" value="方向" />
+		<property name="roleSet">
+			<set>
+				<value type="cn.emg.poibatcheditor.common.RoleTypeEnum">ROLE_EXPORT</value>
+			</set>
+		</property>
+		<property name="enabled" value="true" />
+		<property name="isshow" value="true" />
+	</bean>
+	
+	<bean id="junctionview" class="cn.emg.poibatcheditor.auth.MenuAuthModel">
+		<property name="code" value="1004" />
+		<property name="url" value="/poibatcheditor/junctionview.web" />
+		<property name="label" value="路口放大图" />
+		<property name="roleSet">
+			<set>
+				<value type="cn.emg.poibatcheditor.common.RoleTypeEnum">ROLE_EXPORT</value>
+			</set>
+		</property>
+		<property name="enabled" value="true" />
+		<property name="isshow" value="true" />
+	</bean>
+	
+	<bean id="way" class="cn.emg.poibatcheditor.auth.MenuAuthModel">
+		<property name="code" value="1005" />
+		<property name="url" value="/poibatcheditor/way.web" />
+		<property name="label" value="道路" />
+		<property name="roleSet">
+			<set>
+				<value type="cn.emg.poibatcheditor.common.RoleTypeEnum">ROLE_EXPORT</value>
+			</set>
+		</property>
+		<property name="enabled" value="true" />
+		<property name="isshow" value="true" />
+	</bean>
+	
+	<bean id="admin" class="cn.emg.poibatcheditor.auth.MenuAuthModel">
+		<property name="code" value="1006" />
+		<property name="url" value="/poibatcheditor/admin.web" />
+		<property name="label" value="区划" />
+		<property name="roleSet">
+			<set>
+				<value type="cn.emg.poibatcheditor.common.RoleTypeEnum">ROLE_EXPORT</value>
+			</set>
+		</property>
+		<property name="enabled" value="true" />
+		<property name="isshow" value="true" />
+	</bean>
+	
+	<bean id="boundary" class="cn.emg.poibatcheditor.auth.MenuAuthModel">
+		<property name="code" value="1007" />
+		<property name="url" value="/poibatcheditor/boundary.web" />
+		<property name="label" value="区界" />
+		<property name="roleSet">
+			<set>
+				<value type="cn.emg.poibatcheditor.common.RoleTypeEnum">ROLE_EXPORT</value>
+			</set>
+		</property>
+		<property name="enabled" value="true" />
+		<property name="isshow" value="true" />
+	</bean>
+	
+	<bean id="builtuparea" class="cn.emg.poibatcheditor.auth.MenuAuthModel">
+		<property name="code" value="1008" />
+		<property name="url" value="/poibatcheditor/builtuparea.web" />
+		<property name="label" value="建成区" />
 		<property name="roleSet">
 			<set>
 				<value type="cn.emg.poibatcheditor.common.RoleTypeEnum">ROLE_EXPORT</value>
@@ -27,7 +125,7 @@
 	</bean>
 	
 	<bean id="exportPOIs" class="cn.emg.poibatcheditor.auth.MenuAuthModel">
-		<property name="code" value="1002" />
+		<property name="code" value="1011" />
 		<property name="url" value="/poibatcheditor/exportPOIs.web" />
 		<property name="label" value="导出POI" />
 		<property name="roleSet">

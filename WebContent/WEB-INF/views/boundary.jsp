@@ -7,7 +7,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>要素查询</title>
+<title>区界查询</title>
 <meta charset="UTF-8" />
 <meta name="robots" content="none">
 <meta http-equiv="Pragma" content="no-cache">
@@ -219,8 +219,8 @@
 		params["columns"] = columns.join(",");
 		params["code"] = code;
 
-		jQuery.post("./export.web", {
-			"action" : "getPOIs",
+		jQuery.post("./boundary.web", {
+			"action" : "getBoundary",
 			"params" : JSON.stringify(params)
 		}, function(json) {
 			if (json.result && json.result > 0) {

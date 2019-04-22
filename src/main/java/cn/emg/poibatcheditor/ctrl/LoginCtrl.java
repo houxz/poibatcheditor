@@ -72,8 +72,8 @@ public class LoginCtrl extends BaseCtrl {
 			log.setIp(getRemortIP(request));
 
 			if (hasRole(request, RoleTypeEnum.ROLE_EXPORT.toString())) {
-				logger.debug("LoginCtrl-login end to ROLE_WORKER page.");
-				return "redirect:export.web";
+				logger.debug("LoginCtrl-login end to POI page.");
+				return "redirect:poi.web";
 			} else {
 				if (session != null) {
 					session.invalidate();

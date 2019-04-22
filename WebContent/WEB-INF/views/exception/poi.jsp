@@ -7,7 +7,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>要素查询</title>
+<title>POI查询</title>
 <meta charset="UTF-8" />
 <meta name="robots" content="none">
 <meta http-equiv="Pragma" content="no-cache">
@@ -219,7 +219,7 @@
 		params["columns"] = columns.join(",");
 		params["code"] = code;
 
-		jQuery.post("./export.web", {
+		jQuery.post("./poi.web", {
 			"action" : "getPOIs",
 			"params" : JSON.stringify(params)
 		}, function(json) {
