@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import cn.emg.poibatcheditor.common.ParamUtils;
-import cn.emg.poibatcheditor.dao.POIModelDao;
+import cn.emg.poibatcheditor.dao.poi.POIModelDao;
 
 @Controller
 @RequestMapping("/exportPOIs.web")

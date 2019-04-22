@@ -24,7 +24,7 @@ import cn.emg.poibatcheditor.common.CommonConstants;
 import cn.emg.poibatcheditor.common.ParamUtils;
 import cn.emg.poibatcheditor.common.RequestModule;
 import cn.emg.poibatcheditor.common.ResultModel;
-import cn.emg.poibatcheditor.dao.POIModelDao;
+import cn.emg.poibatcheditor.dao.poi.POIModelDao;
 import cn.emg.poibatcheditor.pojo.EmployeeModel;
 
 @Controller

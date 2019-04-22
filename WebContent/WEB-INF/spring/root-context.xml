@@ -37,10 +37,10 @@
 	<bean id="sqlSessionFactoryForPepro" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSourceMySqlForPepro" />
 		<property name="mapperLocations"
-			value="classpath:cn/emg/poibatcheditor/mapping/*.xml" />
+			value="classpath:cn/emg/poibatcheditor/mapping/poi/*.xml" />
 	</bean>
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="cn.emg.poibatcheditor.dao" />
+		<property name="basePackage" value="cn.emg.poibatcheditor.dao.poi" />
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactoryForPepro" />
 	</bean>
 

@@ -1,4 +1,4 @@
-package cn.emg.poibatcheditor.dao;
+package cn.emg.poibatcheditor.dao.poi;
 
 import java.util.List;
 import java.util.Map;
