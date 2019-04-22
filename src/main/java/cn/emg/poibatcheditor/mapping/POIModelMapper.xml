@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cn.emg.poibatcheditor.dao.poi.POIModelDao" >
+<mapper namespace="cn.emg.poibatcheditor.dao.POIModelDao" >
   <select id="select" resultType="map" parameterType="map">
     SELECT
     	P.oid,
