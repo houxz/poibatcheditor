@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.emg.poibatcheditor.dao.WayModelDao" >
+  <select id="select" resultType="map" parameterType="map">
+    SELECT
+    	W.way_id,
+    	W.confirm_uid,
+    	W.manualcheck_uid,
+    	W.updatetime,
+    	W.confirm,
+    	W.autocheck,
+		W.manualcheck,
+		W.optype,
+		W.confirm_timestamp,
+		W.autocheck_timestamp,
+		W.manualcheck_timestamp,
+		W.isdel,
+		W.ver,
+		(
+			SELECT T.v
+			FROM tb_way_tags T
+			WHERE NOT(T.isdel) AND
+				T.k = 'owner' :: enum_way_key
+			AND T.way_id = W.way_id
+		) AS owner
+    FROM tb_way W
+    <where>
+    	1=1
+    	<if test="code != null" >
+	      AND <![CDATA[ ${code}]]>
+	    </if>
+    </where>
+    <if test="limit != null and limit > 0" >
+      LIMIT #{limit}
+    </if>
+    <if test="offset != null and offset > 0" >
+      OFFSET #{offset}
+    </if>
+  </select>
+  
+  <select id="count" resultType="int" parameterType="map">
+    SELECT
+    	count(1)
+    FROM tb_way W
+    <where>
+    	1=1
+    	<if test="code != null" >
+	      AND <![CDATA[ ${code}]]>
+	    </if>
+    </where>
+  </select>
+  
+  <select id="selectByOwners" resultType="map" parameterType="map">
+    SELECT
+		W.way_id,
+    	W.confirm_uid,
+    	W.manualcheck_uid,
+    	W.updatetime,
+    	W.confirm,
+    	W.autocheck,
+		W.manualcheck,
+		W.optype,
+		W.confirm_timestamp,
+		W.autocheck_timestamp,
+		W.manualcheck_timestamp,
+		W.isdel,
+		W.ver,
+		(
+			SELECT T.v
+			FROM tb_way_tags T
+			WHERE NOT(T.isdel) AND
+				T.k = 'owner' :: enum_way_key
+			AND T.way_id = W.way_id
+		) AS owner
+	FROM
+		tb_way W 
+	WHERE
+		(W.optype = 'submit' OR W.optype = 'ready')
+		AND W.way_id IN (
+		SELECT T.way_id
+		FROM tb_way_tags T
+		WHERE
+			NOT ( T.isdel )
+			AND T.k = 'owner' :: enum_way_key
+			AND T.v IN
+			<foreach collection="owners" item="listItem" open="(" close=")" separator="," >
+				#{listItem, jdbcType=VARCHAR}
+			</foreach>
+		)
+	<if test="limit != null and limit > 0" >
+      LIMIT #{limit}
+    </if>
+    <if test="offset != null and offset > 0" >
+      OFFSET #{offset}
+    </if>
+  </select>
+  
+  <select id="countByOwners" resultType="int" parameterType="map">
+    SELECT
+		count(1)
+	FROM
+		tb_way W 
+	WHERE
+		(W.optype = 'submit' OR W.optype = 'ready')
+		AND W.way_id IN (
+		SELECT T.way_id
+		FROM tb_way_tags T
+		WHERE
+			NOT ( T.isdel )
+			AND T.k = 'owner' :: enum_way_key
+			AND T.v IN
+			<foreach collection="owners" item="listItem" open="(" close=")" separator="," >
+				#{listItem, jdbcType=VARCHAR}
+			</foreach>
+		);
+  </select>
+</mapper>

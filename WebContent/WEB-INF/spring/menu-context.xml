@@ -15,6 +15,7 @@
 				<ref bean="admin" />
 				<ref bean="boundary" />
 				<ref bean="builtuparea" />
+				<ref bean="admincode" />
 				<ref bean="exportPOIs" />
 			</set>
 		</property>
@@ -122,6 +123,19 @@
 		</property>
 		<property name="enabled" value="true" />
 		<property name="isshow" value="true" />
+	</bean>
+	
+	<bean id="admincode" class="cn.emg.poibatcheditor.auth.MenuAuthModel">
+		<property name="code" value="1010" />
+		<property name="url" value="/poibatcheditor/admincode.web" />
+		<property name="label" value="获取区划" />
+		<property name="roleSet">
+			<set>
+				<value type="cn.emg.poibatcheditor.common.RoleTypeEnum">ROLE_EXPORT</value>
+			</set>
+		</property>
+		<property name="enabled" value="true" />
+		<property name="isshow" value="false" />
 	</bean>
 	
 	<bean id="exportPOIs" class="cn.emg.poibatcheditor.auth.MenuAuthModel">

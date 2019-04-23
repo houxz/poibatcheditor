@@ -12,25 +12,56 @@
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<!-- DB 配置 开始 -->
 	<context:property-placeholder location="WEB-INF/spring/db41.101.properties" ignore-unresolvable="true"/>
+	
+	<!-- admincode -->
+	<bean id="dataSourceForAdmincode" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${admincode.driverClassName}" />
+		<property name="url" value="${admincode.url}" />
+		<property name="username" value="${admincode.username}" />
+		<property name="password" value="${admincode.password}" />
+		<property name="initialSize" value="${admincode.initialSize}" />
+		<property name="maxIdle" value="${admincode.maxIdle}" />
+		<property name="minIdle" value="${admincode.minIdle}" />
+		<property name="maxActive" value="${admincode.maxActive}" />
+		<property name="logAbandoned" value="${admincode.logAbandoned}" />
+		<property name="validationQuery" value="${admincode.validationQuery}" />
+		<property name="testOnBorrow" value="${admincode.testOnBorrow}" />
+		<property name="testWhileIdle" value="${admincode.testWhileIdle}" />
+		<property name="removeAbandoned" value="${admincode.removeAbandoned}" />
+		<property name="removeAbandonedTimeout" value="${admincode.removeAbandonedTimeout}" />
+		<property name="maxWait" value="${admincode.maxWait}" />
+	</bean>
+	
+	<!-- Pepro库 qctask模式下的mybatis配置 -->
+	<bean id="sqlSessionFactoryForAdmincode" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSourceForAdmincode" />
+		<property name="mapperLocations"
+			value="classpath:cn/emg/poibatcheditor/mapping/AdminCodeModelMapper.xml" />
+	</bean>
+	<bean class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="cn.emg.poibatcheditor.dao.AdminCodeModelDao" />
+  		<property name="sqlSessionFactory" ref="sqlSessionFactoryForAdmincode" />
+	</bean>
 
-	<!-- pepro -->
+	<!-- poi -->
 	<bean id="dataSourceMySqlForPepro" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
-		<property name="driverClassName" value="${pepro.driverClassName}" />
-		<property name="url" value="${pepro.url}" />
-		<property name="username" value="${pepro.username}" />
-		<property name="password" value="${pepro.password}" />
-		<property name="initialSize" value="${pepro.initialSize}" />
-		<property name="maxIdle" value="${pepro.maxIdle}" />
-		<property name="minIdle" value="${pepro.minIdle}" />
-		<property name="maxActive" value="${pepro.maxActive}" />
-		<property name="logAbandoned" value="${pepro.logAbandoned}" />
-		<property name="validationQuery" value="${pepro.validationQuery}" />
-		<property name="testOnBorrow" value="${pepro.testOnBorrow}" />
-		<property name="testWhileIdle" value="${pepro.testWhileIdle}" />
-		<property name="removeAbandoned" value="${pepro.removeAbandoned}" />
-		<property name="removeAbandonedTimeout" value="${pepro.removeAbandonedTimeout}" />
-		<property name="maxWait" value="${pepro.maxWait}" />
+		<property name="driverClassName" value="${poi.driverClassName}" />
+		<property name="url" value="${poi.url}" />
+		<property name="username" value="${poi.username}" />
+		<property name="password" value="${poi.password}" />
+		<property name="initialSize" value="${poi.initialSize}" />
+		<property name="maxIdle" value="${poi.maxIdle}" />
+		<property name="minIdle" value="${poi.minIdle}" />
+		<property name="maxActive" value="${poi.maxActive}" />
+		<property name="logAbandoned" value="${poi.logAbandoned}" />
+		<property name="validationQuery" value="${poi.validationQuery}" />
+		<property name="testOnBorrow" value="${poi.testOnBorrow}" />
+		<property name="testWhileIdle" value="${poi.testWhileIdle}" />
+		<property name="removeAbandoned" value="${poi.removeAbandoned}" />
+		<property name="removeAbandonedTimeout" value="${poi.removeAbandonedTimeout}" />
+		<property name="maxWait" value="${poi.maxWait}" />
 	</bean>
 	
 	<!-- Pepro库 qctask模式下的mybatis配置 -->
@@ -42,6 +73,37 @@
 	<bean class="org.mybatis.spring.mapper.MapperFactoryBean">
 		<property name="mapperInterface" value="cn.emg.poibatcheditor.dao.POIModelDao" />
   		<property name="sqlSessionFactory" ref="sqlSessionFactoryForPepro" />
+	</bean>
+	
+	<!-- way -->
+	<bean id="dataSourceForWay" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${way.driverClassName}" />
+		<property name="url" value="${way.url}" />
+		<property name="username" value="${way.username}" />
+		<property name="password" value="${way.password}" />
+		<property name="initialSize" value="${way.initialSize}" />
+		<property name="maxIdle" value="${way.maxIdle}" />
+		<property name="minIdle" value="${way.minIdle}" />
+		<property name="maxActive" value="${way.maxActive}" />
+		<property name="logAbandoned" value="${way.logAbandoned}" />
+		<property name="validationQuery" value="${way.validationQuery}" />
+		<property name="testOnBorrow" value="${way.testOnBorrow}" />
+		<property name="testWhileIdle" value="${way.testWhileIdle}" />
+		<property name="removeAbandoned" value="${way.removeAbandoned}" />
+		<property name="removeAbandonedTimeout" value="${way.removeAbandonedTimeout}" />
+		<property name="maxWait" value="${way.maxWait}" />
+	</bean>
+	
+	<!-- Pepro库 qctask模式下的mybatis配置 -->
+	<bean id="sqlSessionFactoryForWay" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSourceForWay" />
+		<property name="mapperLocations"
+			value="classpath:cn/emg/poibatcheditor/mapping/WayModelMapper.xml" />
+	</bean>
+	<bean class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="cn.emg.poibatcheditor.dao.WayModelDao" />
+  		<property name="sqlSessionFactory" ref="sqlSessionFactoryForWay" />
 	</bean>
 
 </beans>

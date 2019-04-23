@@ -35,7 +35,7 @@
 		if (to >= 0)
 			this.scrollTo(to);
 		else
-			$.webeditor.showMsgLabel("alert", "已经到最前一项");
+			$.zealot.showMsgLabel("alert", "已经到最前一项");
 	};
 	
 	BootstrapTable.prototype.gotoNext = function () {
@@ -50,7 +50,7 @@
 			}
 			position += $(trs[i]).height();
 		}
-		$.webeditor.showMsgLabel("alert", "已经到最后一项");
+		$.zealot.showMsgLabel("alert", "已经到最后一项");
 	};
 	
 	$.bootstrapDialog = function(select, bootstrapOptions, dialogOptions) { this.init(select, bootstrapOptions, dialogOptions); };
@@ -131,7 +131,7 @@
 
 							$(this).dialog("close");
 						} else {
-							$.webeditor.showMsgLabel("alert", "请确认已勾选");
+							$.zealot.showMsgLabel("alert", "请确认已勾选");
 						}
 					}
 				},
