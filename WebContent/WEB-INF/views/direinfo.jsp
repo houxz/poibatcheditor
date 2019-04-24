@@ -218,7 +218,7 @@
 				data-align='center'>
 				<thead>
 					<tr>
-						<th data-field="lane_id">方向ID
+						<th data-field="direinfo_id">方向ID
 							<button type="button" class="btn btn-default btn-xs" id="btSearchModel" data-toggle="modal" title="查询" data-target="#searchModel">
 							    <span class="glyphicon glyphicon-search"></span>
 							</button>
