@@ -31,7 +31,7 @@
 	<beans:import resource="./menu-context.xml" />
 	
 	<context:property-placeholder location="WEB-INF/spring/defaultAuths.properties" ignore-unresolvable="true"/>
-	<context:property-placeholder location="WEB-INF/spring/webapi42.24.properties" ignore-unresolvable="true"/>
+	<context:property-placeholder location="WEB-INF/spring/webapi41.101.properties" ignore-unresolvable="true"/>
 	
 	<tx:annotation-driven transaction-manager="transactionManagerPro" />
 
