@@ -213,3 +213,21 @@ div#thumbnails a img {
 .ui-widget-overlay.ui-front {
 	z-index: 9999!important;
 }
+
+.pagination>li>a,.pagination>li>span {
+	color: #333;
+}
+
+.pagination>.active>a,.pagination>.active>span,.pagination>.active>a:hover,.pagination>.active>span:hover,.pagination>.active>a:focus,.pagination>.active>span:focus
+	{
+	color: #333;
+	background-color: #e7e7e7;
+	border-color: #dddddd;
+}
+
+.dropdown-menu > .active > a,
+.dropdown-menu > .active > a:hover,
+.dropdown-menu > .active > a:focus {
+	color: #777!important;
+  	background-color: #e7e7e7!important;
+}
