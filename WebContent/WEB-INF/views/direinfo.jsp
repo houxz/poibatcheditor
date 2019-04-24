@@ -235,7 +235,7 @@
 						<th data-field="manualcheck_timestamp" data-formatter="$.zealot.getLocalTime">manualcheck_timestamp</th>
 						<th data-field="owner">所属行政区划代码</th>
 						<th data-field="isdel">isdel</th>
-						<th data-field="ver">ver</th>
+						<th data-field="ver" data-formatter="$.zealot.getLocalTime">ver</th>
 					</tr>
 				</thead>
 			</table>
