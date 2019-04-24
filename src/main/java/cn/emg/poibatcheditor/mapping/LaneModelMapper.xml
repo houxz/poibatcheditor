@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.emg.poibatcheditor.dao.LaneModelDao" >
+  <select id="select" resultType="map" parameterType="map">
+    SELECT
+    	L.lane_id,
+    	L.junctionid,
+    	L.junction_ver,
+    	L.froadid,
+    	L.froad_ver,
+    	L.confirm,
+    	L.confirm_uid,
+    	L.confirm_timestamp,
+    	L.autocheck,
+    	L.autocheck_timestamp,
+    	L.manualcheck,
+    	L.manualcheck_timestamp,
+    	L.manualcheck_uid,
+    	L.isdel,
+    	L.changeset_id,
+    	l.editver,
+    	L.ver,
+    	L.optype,
+    	L.updatetime,
+    	L.uid,
+		(
+			SELECT T.v
+			FROM tb_node_tags T
+			WHERE NOT(T.isdel) AND
+				T.k = 'owner' :: enum_node_key
+			AND T.node_id = L.junctionid
+		) AS owner
+    FROM tb_lane L
+    <where>
+    	1=1
+    	<if test="code != null" >
+	      AND <![CDATA[ ${code}]]>
+	    </if>
+    </where>
+    <if test="limit != null and limit > 0" >
+      LIMIT #{limit}
+    </if>
+    <if test="offset != null and offset > 0" >
+      OFFSET #{offset}
+    </if>
+  </select>
+  
+  <select id="count" resultType="int" parameterType="map">
+    SELECT
+    	count(1)
+    FROM tb_lane L
+    <where>
+    	1=1
+    	<if test="code != null" >
+	      AND <![CDATA[ ${code}]]>
+	    </if>
+    </where>
+  </select>
+  
+  <select id="selectByOwners" resultType="map" parameterType="map">
+    SELECT
+		L.lane_id,
+    	L.junctionid,
+    	L.junction_ver,
+    	L.froadid,
+    	L.froad_ver,
+    	L.confirm,
+    	L.confirm_uid,
+    	L.confirm_timestamp,
+    	L.autocheck,
+    	L.autocheck_timestamp,
+    	L.manualcheck,
+    	L.manualcheck_timestamp,
+    	L.manualcheck_uid,
+    	L.isdel,
+    	L.changeset_id,
+    	l.editver,
+    	L.ver,
+    	L.optype,
+    	L.updatetime,
+    	L.uid,
+		(
+			SELECT T.v
+			FROM tb_node_tags T
+			WHERE NOT(T.isdel) AND
+				T.k = 'owner' :: enum_node_key
+			AND T.node_id = L.junctionid
+		) AS owner
+	FROM
+		tb_lane L
+	WHERE
+		(L.optype = 'submit' OR L.optype = 'ready')
+		AND L.junctionid IN (
+		SELECT T.node_id
+		FROM tb_node_tags T
+		WHERE
+			NOT ( T.isdel )
+			AND T.k = 'owner' :: enum_node_key
+			AND T.v IN
+			<foreach collection="owners" item="listItem" open="(" close=")" separator="," >
+				#{listItem, jdbcType=VARCHAR}
+			</foreach>
+		)
+	<if test="limit != null and limit > 0" >
+      LIMIT #{limit}
+    </if>
+    <if test="offset != null and offset > 0" >
+      OFFSET #{offset}
+    </if>
+  </select>
+  
+  <select id="countByOwners" resultType="int" parameterType="map">
+    SELECT
+		count(1)
+	FROM
+		tb_lane L
+	WHERE
+		(L.optype = 'submit' OR L.optype = 'ready')
+		AND L.junctionid IN (
+		SELECT T.node_id
+		FROM tb_node_tags T
+		WHERE
+			NOT ( T.isdel )
+			AND T.k = 'owner' :: enum_node_key
+			AND T.v IN
+			<foreach collection="owners" item="listItem" open="(" close=")" separator="," >
+				#{listItem, jdbcType=VARCHAR}
+			</foreach>
+		)
+  </select>
+</mapper>
