@@ -24,7 +24,9 @@ import cn.emg.poibatcheditor.common.CommonConstants;
 import cn.emg.poibatcheditor.common.ParamUtils;
 import cn.emg.poibatcheditor.common.RequestModule;
 import cn.emg.poibatcheditor.common.ResultModel;
-import cn.emg.poibatcheditor.dao.POIModelDao;
+import cn.emg.poibatcheditor.dao.AdminCodeModelDao;
+import cn.emg.poibatcheditor.dao.DireinfoModelDao;
+import cn.emg.poibatcheditor.pojo.AdminCodeModel;
 import cn.emg.poibatcheditor.pojo.EmployeeModel;
 
 @Controller
@@ -34,7 +36,10 @@ public class DireinfoCtrl extends BaseCtrl {
 	private static final Logger logger = LoggerFactory.getLogger(DireinfoCtrl.class);
 	
 	@Autowired
-	private POIModelDao poiModelDao;
+	private DireinfoModelDao direinfoModelDao;
+	
+	@Autowired
+	private AdminCodeModelDao adminCodeModelDao;
 
 	@RequestMapping()
 	public String openLader(Model model, HttpSession session, HttpServletRequest request) {
@@ -63,6 +68,9 @@ public class DireinfoCtrl extends BaseCtrl {
 			case getDireinfo:
 				result = getDireinfo(module);
 				break;
+			case getDireinfoByAdminCodes:
+				result = getWayByAdminCodes(module);
+				break;
 			default:
 				result.setResult(0);
 				result.setResultMsg("未知请求：" + action);
@@ -88,10 +96,14 @@ public class DireinfoCtrl extends BaseCtrl {
 					columns.add(column);
 			}
 			String code = module.getParameter("code");
-			List<Map<String, Object>> pois = poiModelDao.select(columns, code);
+			Integer number = module.getIntParameter("number", -1);
+			Integer size = module.getIntParameter("size", -1);
+			
+			List<Map<String, Object>> pois = direinfoModelDao.select(columns, code, size, (number-1)*size);
+			Integer total = direinfoModelDao.count(columns, code);
 			result.setResult(1);
 			result.setRows(pois);
-			result.setTotal(pois.size());
+			result.setTotal(total);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			result.setResult(0);
@@ -102,4 +114,42 @@ public class DireinfoCtrl extends BaseCtrl {
 		return result;
 	}
 	
+	private ResultModel getWayByAdminCodes(RequestModule module) {
+		logger.debug("START");
+		ResultModel result = new ResultModel();
+		try {
+			String columnsStr = module.getParameter("columns");
+			Set<String> columns = new HashSet<String>();
+			for (String column : columnsStr.split(",")) {
+				if (column != null && !column.isEmpty() && !column.trim().isEmpty())
+					columns.add(column);
+			}
+			Integer number = module.getIntParameter("number", -1);
+			Integer size = module.getIntParameter("size", -1);
+			
+			Set<Integer> list = new HashSet<Integer>();
+			String codes = module.getParameter("code");
+			for (String code : codes.split(",")) {
+				list.add(Integer.valueOf(code));
+			}
+			
+			List<AdminCodeModel> adminCodes = adminCodeModelDao.selectOnTree(list );
+			Set<String> owners = new HashSet<String>();
+			for (AdminCodeModel adminCode : adminCodes) {
+				owners.add(adminCode.getAdaid().toString());
+			}
+			List<Map<String, Object>> pois = direinfoModelDao.selectByOwners(columns, owners, size, (number-1)*size);
+			Integer total = direinfoModelDao.countByOwners(columns, owners);
+			result.setResult(1);
+			result.setRows(pois);
+			result.setTotal(total);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			result.setResult(0);
+			result.setResultMsg(e.getMessage());
+		}
+
+		logger.debug("END");
+		return result;
+	}
 }
