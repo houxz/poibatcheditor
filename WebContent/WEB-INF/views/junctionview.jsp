@@ -218,7 +218,7 @@
 				data-align='center'>
 				<thead>
 					<tr>
-						<th data-field="junctionview_id">ID
+						<th data-field="junctionview_id">路口放大图ID
 							<button type="button" class="btn btn-default btn-xs" id="btSearchModel" data-toggle="modal" title="查询" data-target="#searchModel">
 							    <span class="glyphicon glyphicon-search"></span>
 							</button>
