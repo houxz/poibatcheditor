@@ -76,6 +76,7 @@
 		tb_way W 
 	WHERE
 		(W.optype = 'submit' OR W.optype = 'ready')
+		AND W.changeset_id = 0
 		AND W.way_id IN (
 		SELECT T.way_id
 		FROM tb_way_tags T
@@ -102,6 +103,7 @@
 		tb_way W 
 	WHERE
 		(W.optype = 'submit' OR W.optype = 'ready')
+		AND W.changeset_id = 0
 		AND W.way_id IN (
 		SELECT T.way_id
 		FROM tb_way_tags T
