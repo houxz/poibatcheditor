@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.emg.poibatcheditor.dao.BoundaryModelDao" >
+  <select id="select" resultType="map" parameterType="map">
+    SELECT
+    	M.boundary_id,
+    	M.confirm_uid,
+    	M.manualcheck_uid,
+    	M.updatetime,
+    	M.confirm,
+    	M.autocheck,
+		M.manualcheck,
+		M.optype,
+		M.confirm_timestamp,
+		M.autocheck_timestamp,
+		M.manualcheck_timestamp,
+		M.isdel,
+		M.ver,
+		(
+			SELECT T.v
+			FROM tb_boundary_tags T
+			WHERE NOT(T.isdel) AND
+				T.k = 'adminid' :: enum_boundary_key
+			AND T.boundary_id = M.boundary_id
+		) AS owner
+    FROM tb_boundary M
+    <where>
+    	1=1
+    	<if test="code != null" >
+	      AND <![CDATA[ ${code}]]>
+	    </if>
+    </where>
+    <if test="limit != null and limit > 0" >
+      LIMIT #{limit}
+    </if>
+    <if test="offset != null and offset > 0" >
+      OFFSET #{offset}
+    </if>
+  </select>
+  
+  <select id="count" resultType="int" parameterType="map">
+    SELECT
+    	count(1)
+    FROM tb_boundary M
+    <where>
+    	1=1
+    	<if test="code != null" >
+	      AND <![CDATA[ ${code}]]>
+	    </if>
+    </where>
+  </select>
+  
+  <select id="selectByOwners" resultType="map" parameterType="map">
+    SELECT
+    	M.boundary_id,
+    	M.confirm_uid,
+    	M.manualcheck_uid,
+    	M.updatetime,
+    	M.confirm,
+    	M.autocheck,
+		M.manualcheck,
+		M.optype,
+		M.confirm_timestamp,
+		M.autocheck_timestamp,
+		M.manualcheck_timestamp,
+		M.isdel,
+		M.ver,
+		(
+			SELECT T.v
+			FROM tb_boundary_tags T
+			WHERE NOT(T.isdel) AND
+				T.k = 'adminid' :: enum_boundary_key
+			AND T.boundary_id = M.boundary_id
+		) AS owner
+    FROM tb_boundary M
+	WHERE
+		(M.optype = 'submit' OR M.optype = 'ready')
+		AND M.boundary_id IN (
+		SELECT T.boundary_id
+		FROM tb_boundary_tags T
+		WHERE
+			NOT ( T.isdel )
+			AND T.k = 'adminid' :: enum_boundary_key
+			AND T.v IN
+			<foreach collection="owners" item="listItem" open="(" close=")" separator="," >
+				#{listItem, jdbcType=VARCHAR}
+			</foreach>
+		)
+	<if test="limit != null and limit > 0" >
+      LIMIT #{limit}
+    </if>
+    <if test="offset != null and offset > 0" >
+      OFFSET #{offset}
+    </if>
+  </select>
+  
+  <select id="countByOwners" resultType="int" parameterType="map">
+    SELECT
+		count(1)
+	FROM tb_boundary M 
+	WHERE
+		(M.optype = 'submit' OR M.optype = 'ready')
+		AND M.boundary_id IN (
+		SELECT T.boundary_id
+		FROM tb_boundary_tags T
+		WHERE
+			NOT ( T.isdel )
+			AND T.k = 'adminid' :: enum_boundary_key
+			AND T.v IN
+			<foreach collection="owners" item="listItem" open="(" close=")" separator="," >
+				#{listItem, jdbcType=VARCHAR}
+			</foreach>
+		)
+  </select>
+</mapper>

@@ -104,6 +104,7 @@
 				<value>classpath:cn/emg/poibatcheditor/mapping/DireinfoModelMapper.xml</value>
 				<value>classpath:cn/emg/poibatcheditor/mapping/JunctionviewModelMapper.xml</value>
 				<value>classpath:cn/emg/poibatcheditor/mapping/AdminModelMapper.xml</value>
+				<value>classpath:cn/emg/poibatcheditor/mapping/BoundaryModelMapper.xml</value>
 			</array>
 		</property>
 	</bean>
@@ -125,6 +126,10 @@
 	</bean>
 	<bean class="org.mybatis.spring.mapper.MapperFactoryBean">
 		<property name="mapperInterface" value="cn.emg.poibatcheditor.dao.AdminModelDao" />
+  		<property name="sqlSessionFactory" ref="sqlSessionFactoryForWay" />
+	</bean>
+	<bean class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="cn.emg.poibatcheditor.dao.BoundaryModelDao" />
   		<property name="sqlSessionFactory" ref="sqlSessionFactoryForWay" />
 	</bean>
 
