@@ -24,7 +24,9 @@ import cn.emg.poibatcheditor.common.CommonConstants;
 import cn.emg.poibatcheditor.common.ParamUtils;
 import cn.emg.poibatcheditor.common.RequestModule;
 import cn.emg.poibatcheditor.common.ResultModel;
+import cn.emg.poibatcheditor.dao.AdminCodeModelDao;
 import cn.emg.poibatcheditor.dao.POIModelDao;
+import cn.emg.poibatcheditor.pojo.AdminCodeModel;
 import cn.emg.poibatcheditor.pojo.EmployeeModel;
 
 @Controller
@@ -35,6 +37,9 @@ public class POICtrl extends BaseCtrl {
 	
 	@Autowired
 	private POIModelDao poiModelDao;
+	
+	@Autowired
+	private AdminCodeModelDao adminCodeModelDao;
 
 	@RequestMapping()
 	public String openLader(Model model, HttpSession session, HttpServletRequest request) {
@@ -63,6 +68,9 @@ public class POICtrl extends BaseCtrl {
 			case getPOIs:
 				result = getPOIs(module);
 				break;
+			case getPOIByAdminCodes:
+				result = getPOIByAdminCodes(module);
+				break;
 			default:
 				result.setResult(0);
 				result.setResultMsg("未知请求：" + action);
@@ -88,10 +96,15 @@ public class POICtrl extends BaseCtrl {
 					columns.add(column);
 			}
 			String code = module.getParameter("code");
-			List<Map<String, Object>> pois = poiModelDao.select(columns, code);
+			Integer number = module.getIntParameter("number", -1);
+			Integer size = module.getIntParameter("size", -1);
+			
+			List<Map<String, Object>> pois = poiModelDao.select(columns, code, size, (number-1)*size);
+			Integer total = poiModelDao.count(columns, code);
+			
 			result.setResult(1);
 			result.setRows(pois);
-			result.setTotal(pois.size());
+			result.setTotal(total);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			result.setResult(0);
@@ -102,4 +115,42 @@ public class POICtrl extends BaseCtrl {
 		return result;
 	}
 	
+	private ResultModel getPOIByAdminCodes(RequestModule module) {
+		logger.debug("START");
+		ResultModel result = new ResultModel();
+		try {
+			String columnsStr = module.getParameter("columns");
+			Set<String> columns = new HashSet<String>();
+			for (String column : columnsStr.split(",")) {
+				if (column != null && !column.isEmpty() && !column.trim().isEmpty())
+					columns.add(column);
+			}
+			Integer number = module.getIntParameter("number", -1);
+			Integer size = module.getIntParameter("size", -1);
+			
+			Set<Integer> list = new HashSet<Integer>();
+			String codes = module.getParameter("code");
+			for (String code : codes.split(",")) {
+				list.add(Integer.valueOf(code));
+			}
+			
+			List<AdminCodeModel> adminCodes = adminCodeModelDao.selectOnTree(list );
+			Set<Integer> owners = new HashSet<Integer>();
+			for (AdminCodeModel adminCode : adminCodes) {
+				owners.add(adminCode.getAdaid());
+			}
+			List<Map<String, Object>> pois = poiModelDao.selectByOwners(columns, owners, size, (number-1)*size);
+			Integer total = poiModelDao.countByOwners(columns, owners);
+			result.setResult(1);
+			result.setRows(pois);
+			result.setTotal(total);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			result.setResult(0);
+			result.setResultMsg(e.getMessage());
+		}
+
+		logger.debug("END");
+		return result;
+	}
 }

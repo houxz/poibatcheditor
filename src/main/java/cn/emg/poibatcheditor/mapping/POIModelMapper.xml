@@ -48,5 +48,88 @@
 	      AND <![CDATA[ ${code}]]>
 	    </if>
     </where>
+    <if test="limit != null and limit > 0" >
+      LIMIT #{limit}
+    </if>
+    <if test="offset != null and offset > 0" >
+      OFFSET #{offset}
+    </if>
+  </select>
+  <select id="count" resultType="int" parameterType="map">
+    SELECT
+    	count(1)
+    FROM tb_poi P
+    <where>
+    	1=1
+    	<if test="code != null" >
+	      AND <![CDATA[ ${code}]]>
+	    </if>
+    </where>
+  </select>
+  <select id="selectByOwners" resultType="map" parameterType="map">
+    SELECT
+		P.oid,
+		P.featcode,
+		P.namec,
+		P.grade,
+		P.ver,
+		P.updatetime,
+		P.optype,
+		P.autocheck,
+		P.manualcheck,
+		P.process,
+		P.isdel,
+		P.projectid,
+		P.editver,
+		P.geo,
+		ST_X(ST_GeometryN(P.geo, 1)) AS x,
+		ST_Y(ST_GeometryN(P.geo, 1)) AS y,
+		P.owner,
+		P.sortcode,
+		P.confirm,
+		P.confirm_uid,
+		P.confirm_timestamp,
+		P.autocheck_timestamp,
+		P.manualcheck_timestamp,
+		P.uid,
+		P.manualcheck_uid,
+		P.newfeatcode,
+		P.newsortcode
+	    <if test="columns != null and columns.size() > 0">
+	    	<foreach collection="columns" index="index" item="column" open="," separator=",">
+			(
+				SELECT PT.ATTRVALUE
+				FROM tb_poi_tags PT
+				WHERE NOT(PT.ISDEL) AND
+					PT.ATTRNAME = #{column} :: enum_poi_attrname
+				AND PT.OID = P.OID
+			) AS ${column}
+			</foreach>
+	    </if>
+	FROM tb_poi P
+	WHERE
+		(P.optype = 'submit' OR P.optype = 'ready')
+		AND P.owner IN
+		<foreach collection="owners" item="listItem" open="(" close=")" separator="," >
+			#{listItem, jdbcType=VARCHAR}
+		</foreach>
+	<if test="limit != null and limit > 0" >
+      LIMIT #{limit}
+    </if>
+    <if test="offset != null and offset > 0" >
+      OFFSET #{offset}
+    </if>
+  </select>
+  
+  <select id="countByOwners" resultType="int" parameterType="map">
+    SELECT
+		count(1)
+	FROM tb_poi P 
+	WHERE
+		(P.optype = 'submit' OR P.optype = 'ready')
+		AND P.owner IN
+		<foreach collection="owners" item="listItem" open="(" close=")" separator="," >
+			#{listItem, jdbcType=VARCHAR}
+		</foreach>
   </select>
 </mapper>

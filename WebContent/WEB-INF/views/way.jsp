@@ -259,7 +259,6 @@
 					</ul>
 					<div id="myTabContent" class="tab-content">
 						<div class="tab-pane fade in active" id="preset">
-							<div>
 							<table id="itemAreaslist"
 								data-url="./admincode.web?atn=getAdminCodes"
 								data-side-pagination="server" data-filter-control="true"
@@ -281,7 +280,6 @@
 									</tr>
 								</thead>
 							</table>
-							</div>
 						</div>
 						<div class="tab-pane fade" id="customize">
 							<div class="form-group">

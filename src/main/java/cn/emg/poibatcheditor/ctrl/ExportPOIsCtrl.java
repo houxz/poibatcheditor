@@ -69,7 +69,7 @@ public class ExportPOIsCtrl {
 					columns.add(column);
 			}
 			String code = ParamUtils.getParameter(request, "code");
-			List<Map<String, Object>> pois = poiModelDao.select(columns, code);
+			List<Map<String, Object>> pois = poiModelDao.select(columns, code, null, null);
 			if (pois == null || pois.isEmpty()) {
 				logger.debug("BREAK");
 				out = response.getOutputStream();

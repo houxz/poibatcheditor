@@ -88,10 +88,15 @@ public class BuiltupareaCtrl extends BaseCtrl {
 					columns.add(column);
 			}
 			String code = module.getParameter("code");
-			List<Map<String, Object>> pois = poiModelDao.select(columns, code);
+			Integer number = module.getIntParameter("number", -1);
+			Integer size = module.getIntParameter("size", -1);
+			
+			List<Map<String, Object>> pois = poiModelDao.select(columns, code, size, (number-1)*size);
+			Integer total = poiModelDao.count(columns, code);
+			
 			result.setResult(1);
 			result.setRows(pois);
-			result.setTotal(pois.size());
+			result.setTotal(total);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			result.setResult(0);

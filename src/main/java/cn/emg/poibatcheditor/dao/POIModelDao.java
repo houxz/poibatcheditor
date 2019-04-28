@@ -8,6 +8,12 @@ import org.apache.ibatis.annotations.Param;
 
 public interface POIModelDao {
 	
-    List<Map<String, Object>> select(@Param("columns") Set<String> columns, @Param("code") String code);
+    List<Map<String, Object>> select(@Param("columns") Set<String> columns, @Param("code") String code, @Param("limit") Integer limit, @Param("offset") Integer offset);
+    
+    Integer count(@Param("columns") Set<String> columns, @Param("code") String code);
+
+    List<Map<String, Object>> selectByOwners(@Param("columns") Set<String> columns, @Param("owners") Set<Integer> owners, @Param("limit") Integer limit, @Param("offset") Integer offset);
+    
+    Integer countByOwners(@Param("columns") Set<String> columns, @Param("owners") Set<Integer> owners);
     
 }

@@ -62,6 +62,13 @@
 		columns = columns.split(',');
 	}
 	
+	var admincodes = window.localStorage.POIBATCHEDITOR_admincodes;
+	if(!admincodes) {
+		admincodes = new Array();
+	} else {
+		admincodes = admincodes.split(',');
+	}
+	
 	function refreshColumns() {
 		$(".thColumnsOn").remove();
 		columns.forEach(function(column){
@@ -114,13 +121,21 @@
 		getPOIs();
 	}
 	
+	function checkboxFormat(value, row, index) {
+		if (admincodes.indexOf(row.adaid) >= 0 || admincodes.indexOf(String(row.adaid)) >= 0)
+			return true;
+		else
+			return false;
+	}
+	
 	$(document).ready(function() {
 		$.zealot.getHead();
 		
 		refreshColumns();
 		
 		$('[data-toggle="pois"]').bootstrapTable({
-			locale : 'zh-CN'
+			locale : 'zh-CN',
+			onPageChange : getPOIs
 		});
 		
 		$('#columnConfigModel').on('show.bs.modal',function() {
@@ -152,6 +167,54 @@
 				
 				$("#divcolumnsoff").append(html.join(''));
 			});
+		});
+		
+		$('[data-toggle="itemAreas"]').bootstrapTable({
+			locale : 'zh-CN',
+			onCheck : function(row) {
+				var adaid = String(row.adaid);
+				var index = admincodes.indexOf(adaid);
+				if (index < 0) {
+					admincodes.push(adaid);
+				}
+				window.localStorage.POIBATCHEDITOR_admincodes = admincodes.join(",");
+			},
+			onUncheck : function(row) {
+				var adaid = String(row.adaid);
+				var index = admincodes.indexOf(adaid);
+				if (index >= 0) {
+					admincodes.splice(index, 1);
+				}
+				window.localStorage.POIBATCHEDITOR_admincodes = admincodes.join(",");
+			},
+			onCheckAll : function(rows) {
+				if (!rows || rows.length <= 0)
+					return;
+				
+				for (var i in rows) {
+					var adaid = String(rows[i].adaid);
+					var index = admincodes.indexOf(adaid);
+					if (index < 0) {
+						admincodes.push(adaid);
+					}
+				}
+				
+				window.localStorage.POIBATCHEDITOR_admincodes = admincodes.join(",");
+			},
+			onUncheckAll : function(rows) {
+				if (!rows || rows.length <= 0)
+					return;
+				
+				for (var i in rows) {
+					var adaid = String(rows[i].adaid);
+					var index = admincodes.indexOf(adaid);
+					if (index >= 0) {
+						admincodes.splice(index, 1);
+					}
+				}
+				
+				window.localStorage.POIBATCHEDITOR_admincodes = admincodes.join(",");
+			}
 		});
 		
 		$('#searchModel').on('show.bs.modal',function() {
@@ -203,34 +266,70 @@
 	}
 	
 	function getPOIs() {
-		var myField = document.getElementById("codeTextArea");
-		var code = myField.value;
-		
-		if (!code) {
-			$.zealot.showMsgLabel("alert", "请配置查询条件");
-			myField.focus();
+		var tabIndex = $("ul#myTab li.active").index();
+		if (tabIndex == 0) {
+			if (!admincodes || admincodes.length <= 0) {
+				$.zealot.showMsgLabel("alert", "请勾选区划");
+				return;
+			}
+			
+			$.zealot.showMsgBox("info", "查询中...");
+			$('[data-toggle="pois"]').bootstrapTable("showLoading");
+			
+			var params = {};
+			params["columns"] = "";
+			params["code"] = admincodes.join(",");
+			params["number"] = $('[data-toggle="pois"]').bootstrapTable('getOptions').pageNumber;
+			params["size"] = $('[data-toggle="pois"]').bootstrapTable('getOptions').pageSize;
+
+			jQuery.post("./poi.web", {
+				"action" : "getPOIByAdminCodes",
+				"params" : JSON.stringify(params)
+			}, function(json) {
+				if (json.result && json.result > 0) {
+					$('[data-toggle="pois"]').bootstrapTable("hideLoading");
+					$('[data-toggle="pois"]').bootstrapTable("load", json);
+					$('#searchModel').modal('hide');
+				} else {
+					$.zealot.showMsgLabel("alert", json.resultMsg);
+				}
+				$.zealot.showMsgBox("close");
+			}, "json");
+		} else if (tabIndex == 1) {
+			var myField = document.getElementById("codeTextArea");
+			var code = myField.value;
+			
+			if (!code) {
+				$.zealot.showMsgLabel("alert", "请配置查询条件");
+				myField.focus();
+				return;
+			}
+			
+			$.zealot.showMsgBox("info", "查询中...");
+			$('[data-toggle="pois"]').bootstrapTable("showLoading");
+			
+			var params = {};
+			params["columns"] = columns.join(",");
+			params["code"] = code;
+			params["number"] = $('[data-toggle="pois"]').bootstrapTable('getOptions').pageNumber;
+			params["size"] = $('[data-toggle="pois"]').bootstrapTable('getOptions').pageSize;
+
+			jQuery.post("./poi.web", {
+				"action" : "getPOIs",
+				"params" : JSON.stringify(params)
+			}, function(json) {
+				if (json.result && json.result > 0) {
+					$('[data-toggle="pois"]').bootstrapTable("hideLoading");
+					$('[data-toggle="pois"]').bootstrapTable("load", json);
+					$('#searchModel').modal('hide');
+				} else {
+					$.zealot.showMsgLabel("alert", json.resultMsg);
+				}
+				$.zealot.showMsgBox("close");
+			}, "json");
+		} else {
 			return;
 		}
-		
-		$.zealot.showMsgBox("info", "查询中...");
-		$('[data-toggle="pois"]').bootstrapTable("showLoading");
-		
-		var params = {};
-		params["columns"] = columns.join(",");
-		params["code"] = code;
-
-		jQuery.post("./poi.web", {
-			"action" : "getPOIs",
-			"params" : JSON.stringify(params)
-		}, function(json) {
-			if (json.result && json.result > 0) {
-				$('[data-toggle="pois"]').bootstrapTable("hideLoading");
-				$('[data-toggle="pois"]').bootstrapTable("load", json.rows);
-			} else {
-				$.zealot.showMsgLabel("alert", json.resultMsg);
-			}
-			$.zealot.showMsgBox("close");
-		}, "json");
 	}
 	
 	function check() {
@@ -253,9 +352,8 @@
 		<div id="headdiv"></div>
 		<div class="row" style="margin-top: 60px;">
 			<table id="poilist"
-				data-pagination="true"
-				data-page-list="All"
-				data-page-size="All"
+				data-side-pagination="server"
+				data-pagination="true" data-page-list="[10, 20, 50, 100]" data-page-size="10"
 				data-toggle="pois"
 				data-height="720"
 				data-align='center'>
@@ -294,8 +392,8 @@
 			</table>
 		</div>
 	</div>
-	<div class="modal fade" id="searchModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
+	<div class="modal fade bs-example-modal-lg" id="searchModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
@@ -306,55 +404,86 @@
 					</h4>
 				</div>
 				<div class="modal-body">
-					<div class="form-group">
-						<textarea class="form-control" id="codeTextArea" rows="16" style="resize:none"></textarea>
+					<ul id="myTab" class="nav nav-tabs">
+						<li class="active"><a href="#preset" data-toggle="tab">区划查询</a></li>
+						<li><a href="#customize" data-toggle="tab">自定义</a></li>
+					</ul>
+					<div id="myTabContent" class="tab-content">
+						<div class="tab-pane fade in active" id="preset">
+							<table id="itemAreaslist"
+								data-url="./admincode.web?atn=getAdminCodes"
+								data-side-pagination="server" data-filter-control="true"
+								data-pagination="true" data-page-list="[10, 20, 50, 100]" data-page-size="10"
+								data-search-on-enter-key='true' data-align='center'
+								data-toggle="itemAreas" data-click-to-select="true"
+								data-height="430">
+								<thead>
+									<tr>
+										<th data-field="state" data-checkbox="true" data-formatter="checkboxFormat"></th>
+										<th data-field="adaid" data-filter-control="input"
+											data-filter-control-placeholder="">adaid</th>
+										<th data-field="featcode" data-filter-control="input"
+											data-filter-control-placeholder="">featcode</th>
+										<th data-field="namec" data-filter-control="input"
+											data-filter-control-placeholder="">namec</th>
+										<th data-field="owner" data-filter-control="input"
+											data-filter-control-placeholder="">owner</th>
+									</tr>
+								</thead>
+							</table>
+						</div>
+						<div class="tab-pane fade" id="customize">
+							<div class="form-group">
+								<textarea class="form-control" id="codeTextArea" rows="16" style="resize:none"></textarea>
+							</div>
+							<div class="btn-group dropup ">
+								<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+									选择属性 <span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu" role="menu">
+									<c:set var="poiAttrnameEnums" value="<%=POIMainAttrnameEnum.values()%>"/>
+									<c:forEach items="${poiAttrnameEnums }" var="poiAttrnameEnum">
+										<c:if test="${!poiAttrnameEnum.equals(POIMainAttrnameEnum.unkown) }">
+											<li><a href="#" onclick="codein('${poiAttrnameEnum.getValue() }');">${poiAttrnameEnum.getDes() }</a></li>
+										</c:if>
+									</c:forEach>
+								</ul>
+							</div>
+							<div class="btn-group dropup ">
+								<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+									选择逻辑运算符 <span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu" role="menu">
+									<li><a href="#" onclick="codein('and');">与</a></li>
+									<li><a href="#" onclick="codein('or');">或</a></li>
+									<li><a href="#" onclick="codein('xor');">异或</a></li>
+								</ul>
+							</div>
+							<div class="btn-group dropup ">
+								<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+									选择关系运算符 <span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu" role="menu">
+									<li><a href="#" onclick="codein('=');">等于</a></li>
+									<li><a href="#" onclick="codein('!=');">不等于</a></li>
+									<li><a href="#" onclick="codein('<');">小于</a></li>
+									<li><a href="#" onclick="codein('<=');">小于等于</a></li>
+									<li><a href="#" onclick="codein('>');">大于</a></li>
+									<li><a href="#" onclick="codein('>=');">大于等于</a></li>
+									<li><a href="#" onclick="codein('is null');">为空</a></li>
+									<li><a href="#" onclick="codein('is not null');">不为空</a></li>
+									<!-- <li><a href="#" onclick="codein('like');">包含</a></li>
+									<li><a href="#" onclick="codein('not like');">不包含</a></li> -->
+								</ul>
+							</div>
+							<button type="button" class="btn btn-default" onclick="codein('(');">&nbsp;&nbsp;(&nbsp;&nbsp;</button>
+							<button type="button" class="btn btn-default"onclick="codein(')');">&nbsp;&nbsp;)&nbsp;&nbsp;</button>
+							<button type="button" class="btn btn-default"onclick="codeempty();">&nbsp;&nbsp;清空&nbsp;&nbsp;</button>
+						</div>
 					</div>
-					<div class="btn-group dropup ">
-						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-							选择属性 <span class="caret"></span>
-						</button>
-						<ul class="dropdown-menu" role="menu">
-							<c:set var="poiAttrnameEnums" value="<%=POIMainAttrnameEnum.values()%>"/>
-							<c:forEach items="${poiAttrnameEnums }" var="poiAttrnameEnum">
-								<c:if test="${!poiAttrnameEnum.equals(POIMainAttrnameEnum.unkown) }">
-									<li><a href="#" onclick="codein('${poiAttrnameEnum.getValue() }');">${poiAttrnameEnum.getDes() }</a></li>
-								</c:if>
-							</c:forEach>
-						</ul>
-					</div>
-					<div class="btn-group dropup ">
-						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-							选择逻辑运算符 <span class="caret"></span>
-						</button>
-						<ul class="dropdown-menu" role="menu">
-							<li><a href="#" onclick="codein('and');">与</a></li>
-							<li><a href="#" onclick="codein('or');">或</a></li>
-							<li><a href="#" onclick="codein('xor');">异或</a></li>
-						</ul>
-					</div>
-					<div class="btn-group dropup ">
-						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-							选择关系运算符 <span class="caret"></span>
-						</button>
-						<ul class="dropdown-menu" role="menu">
-							<li><a href="#" onclick="codein('=');">等于</a></li>
-							<li><a href="#" onclick="codein('!=');">不等于</a></li>
-							<li><a href="#" onclick="codein('<');">小于</a></li>
-							<li><a href="#" onclick="codein('<=');">小于等于</a></li>
-							<li><a href="#" onclick="codein('>');">大于</a></li>
-							<li><a href="#" onclick="codein('>=');">大于等于</a></li>
-							<li><a href="#" onclick="codein('is null');">为空</a></li>
-							<li><a href="#" onclick="codein('is not null');">不为空</a></li>
-							<!-- <li><a href="#" onclick="codein('like');">包含</a></li>
-							<li><a href="#" onclick="codein('not like');">不包含</a></li> -->
-						</ul>
-					</div>
-					<button type="button" class="btn btn-default" onclick="codein('(');">&nbsp;&nbsp;(&nbsp;&nbsp;</button>
-					<button type="button" class="btn btn-default"onclick="codein(')');">&nbsp;&nbsp;)&nbsp;&nbsp;</button>
-					<button type="button" class="btn btn-default"onclick="codeempty();">&nbsp;&nbsp;清空&nbsp;&nbsp;</button>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal" onclick="getPOIs();">查询</button>
+					<button type="button" class="btn btn-default" onclick="getPOIs();">查询</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 				</div>
 			</div>
