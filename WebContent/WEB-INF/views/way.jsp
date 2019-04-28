@@ -259,27 +259,28 @@
 					</ul>
 					<div id="myTabContent" class="tab-content">
 						<div class="tab-pane fade in active" id="preset">
-							<table id="itemAreaslist"
-								data-url="./admincode.web?atn=getAdminCodes"
-								data-side-pagination="server" data-filter-control="true"
-								data-pagination="true" data-page-list="[10, 20, 50, 100]" data-page-size="10"
-								data-search-on-enter-key='true' data-align='center'
-								data-toggle="itemAreas" data-click-to-select="true"
-								data-height="430">
-								<thead>
-									<tr>
-										<th data-field="state" data-checkbox="true" data-formatter="checkboxFormat"></th>
-										<th data-field="adaid" data-filter-control="input"
-											data-filter-control-placeholder="">adaid</th>
-										<th data-field="featcode" data-filter-control="input"
-											data-filter-control-placeholder="">featcode</th>
-										<th data-field="namec" data-filter-control="input"
-											data-filter-control-placeholder="">namec</th>
-										<th data-field="owner" data-filter-control="input"
-											data-filter-control-placeholder="">owner</th>
-									</tr>
-								</thead>
-							</table>
+							<div>
+								<table id="itemAreaslist"
+									data-url="./admincode.web?atn=getAdminCodes"
+									data-side-pagination="server" data-filter-control="true"
+									data-pagination="true" data-page-list="[10, 20, 50, 100]" data-page-size="10"
+									data-search-on-enter-key='true' data-align='center'
+									data-toggle="itemAreas" data-click-to-select="true">
+									<thead>
+										<tr>
+											<th data-field="state" data-checkbox="true" data-formatter="checkboxFormat"></th>
+											<th data-field="adaid" data-filter-control="input"
+												data-filter-control-placeholder="">adaid</th>
+											<th data-field="featcode" data-filter-control="input"
+												data-filter-control-placeholder="">featcode</th>
+											<th data-field="namec" data-filter-control="input"
+												data-filter-control-placeholder="">namec</th>
+											<th data-field="owner" data-filter-control="input"
+												data-filter-control-placeholder="">owner</th>
+										</tr>
+									</thead>
+								</table>
+							</div>
 						</div>
 						<div class="tab-pane fade" id="customize">
 							<div class="form-group">
