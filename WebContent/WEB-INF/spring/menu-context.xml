@@ -12,9 +12,9 @@
 				<ref bean="direinfo" />
 				<ref bean="junctionview" />
 				<ref bean="way" />
-				<!-- <ref bean="admin" />
+				<ref bean="admin" />
 				<ref bean="boundary" />
-				<ref bean="builtuparea" /> -->
+				<ref bean="builtuparea" />
 				<ref bean="admincode" />
 				<ref bean="exportPOIs" />
 			</set>
