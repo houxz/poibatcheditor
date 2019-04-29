@@ -418,7 +418,8 @@
 									data-side-pagination="server" data-filter-control="true"
 									data-pagination="true" data-page-list="[10, 20, 50, 100]" data-page-size="10"
 									data-search-on-enter-key='true' data-align='center'
-									data-toggle="itemAreas" data-click-to-select="true">
+									data-toggle="itemAreas" data-click-to-select="true"
+									data-height="510">
 									<thead>
 										<tr>
 											<th data-field="state" data-checkbox="true" data-formatter="checkboxFormat"></th>

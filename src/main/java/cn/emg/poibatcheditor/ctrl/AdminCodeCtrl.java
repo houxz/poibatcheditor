@@ -44,6 +44,8 @@ public class AdminCodeCtrl extends BaseCtrl {
 			String filter = ParamUtils.getParameter(request, "filter", "");
 			Integer offset = ParamUtils.getIntParameter(request, "offset", 0);
 			Integer limit = ParamUtils.getIntParameter(request, "limit", 10);
+			String radio = ParamUtils.getParameter(request, "radio", "all");
+			String admincodes = ParamUtils.getParameter(request, "admincodes", "");
 			
 			Map<String, Object> filterPara = null;
 			AdminCodeModelExample example = new AdminCodeModelExample();
@@ -96,9 +98,25 @@ public class AdminCodeCtrl extends BaseCtrl {
 				example.setLimit(limit);
 			if (offset.compareTo(0) > 0)
 				example.setOffset(offset);
+			if (!radio.equals("all")) {
+				List<Integer> adaids = new ArrayList<Integer>();
+				for (String adaid : admincodes.split(",")) {
+					try {
+						adaids.add(Integer.valueOf(adaid));
+					} catch (Exception e) {
+					}
+				}
+				criteria.andAdaidIn(adaids);
+				
+				if (!adaids.isEmpty()) {
+					adminCodes = adminCodeModelDao.selectByExample(example);
+					total = adminCodeModelDao.countByExample(example);
+				}
+			} else {
+				adminCodes = adminCodeModelDao.selectByExample(example);
+				total = adminCodeModelDao.countByExample(example);
+			}
 			
-			adminCodes = adminCodeModelDao.selectByExample(example);
-			total = adminCodeModelDao.countByExample(example);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 		}

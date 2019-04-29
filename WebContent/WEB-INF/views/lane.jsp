@@ -22,7 +22,7 @@
 <script src="resources/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
 <script src="resources/js/zealot.js"></script>
 <script src="resources/bootstrap-3.3.7/js/bootstrap.min.js"></script>
-<script src="resources/bootstrap-table-1.11.1/bootstrap-table.min.js"></script>
+<script src="resources/bootstrap-table-1.11.1/bootstrap-table.js"></script>
 <script
 	src="resources/bootstrap-table-1.11.1/extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
 <script src="resources/bootstrap-table-1.11.1/locale/bootstrap-table-zh-CN.js"></script>
@@ -45,6 +45,20 @@
 		
 		$('[data-toggle="itemAreas"]').bootstrapTable({
 			locale : 'zh-CN',
+			queryParams : function(params) {
+				if (params.filter != undefined) {
+					var filterObj = eval('(' + params.filter + ')');
+					if (filterObj.state != undefined) {
+						filterObj["state"] = filterObj.state;
+						delete filterObj.state;
+						params.filter = JSON.stringify(filterObj);
+					}
+				}
+				var radio = $("input:radio[name='rd_adminCode']:checked").val();
+				params["radio"] = radio;
+				params["admincodes"] = admincodes.join(",");
+				return params;
+			},
 			onCheck : function(row) {
 				var adaid = String(row.adaid);
 				var index = admincodes.indexOf(adaid);
@@ -94,6 +108,11 @@
 		$('#searchModel').on('show.bs.modal',function() {
 			var myField = document.getElementById("codeTextArea");
 			myField.focus();
+		});
+		
+		$("input:radio[name='rd_adminCode']").change(function(){
+			var obj = $('[data-toggle="itemAreas"]');
+			obj.bootstrapTable('refreshOptions', {pageNumber:1});
 		});
 		
 	});
@@ -260,12 +279,13 @@
 					<div id="myTabContent" class="tab-content">
 						<div class="tab-pane fade in active" id="preset">
 							<div>
-								<table id="itemAreaslist"
+								<table id="itemAreaslist" data-classes="table table-borderless table-hover"
 									data-url="./admincode.web?atn=getAdminCodes"
 									data-side-pagination="server" data-filter-control="true"
 									data-pagination="true" data-page-list="[10, 20, 50, 100]" data-page-size="10"
 									data-search-on-enter-key='true' data-align='center'
-									data-toggle="itemAreas" data-click-to-select="true">
+									data-toggle="itemAreas" data-click-to-select="true"
+									data-height="510">
 									<thead>
 										<tr>
 											<th data-field="state" data-checkbox="true" data-formatter="checkboxFormat"></th>
@@ -291,6 +311,14 @@
 					</div>
 				</div>
 				<div class="modal-footer">
+					<div style="float: left; margin: auto 2%;">
+					<label class="radio-inline">
+						<input type="radio" name="rd_adminCode" value="all" checked>全部
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="rd_adminCode" value="checked">已勾选
+					</label>
+					</div>
 					<button type="button" class="btn btn-default" onclick="getLanes();">查询</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 				</div>
