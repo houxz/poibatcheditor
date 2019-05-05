@@ -173,6 +173,20 @@
 		
 		$('[data-toggle="itemAreas"]').bootstrapTable({
 			locale : 'zh-CN',
+			queryParams : function(params) {
+				if (params.filter != undefined) {
+					var filterObj = eval('(' + params.filter + ')');
+					if (filterObj.state != undefined) {
+						filterObj["state"] = filterObj.state;
+						delete filterObj.state;
+						params.filter = JSON.stringify(filterObj);
+					}
+				}
+				var radio = $("input:radio[name='rd_adminCode']:checked").val();
+				params["radio"] = radio;
+				params["admincodes"] = admincodes.join(",");
+				return params;
+			},
 			onCheck : function(row) {
 				var adaid = String(row.adaid);
 				var index = admincodes.indexOf(adaid);
@@ -225,6 +239,11 @@
 		});
 		
 		$("input#columns").val(columns.join(","));
+		
+		$("input:radio[name='rd_adminCode']").change(function(){
+			var obj = $('[data-toggle="itemAreas"]');
+			obj.bootstrapTable('refreshOptions', {pageNumber:1});
+		});
 		
 		$("#codeTextArea").blur(function(){
 			var code = $("#codeTextArea").val();
@@ -487,6 +506,14 @@
 					</div>
 				</div>
 				<div class="modal-footer">
+					<div style="float: left; margin: auto 2%;">
+					<label class="radio-inline">
+						<input type="radio" name="rd_adminCode" value="all" checked>全部
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="rd_adminCode" value="checked">已勾选
+					</label>
+					</div>
 					<button type="button" class="btn btn-default" onclick="getPOIs();">查询</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 				</div>
