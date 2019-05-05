@@ -98,6 +98,7 @@ public class AdminCodeCtrl extends BaseCtrl {
 				example.setLimit(limit);
 			if (offset.compareTo(0) > 0)
 				example.setOffset(offset);
+			example.setOrderByClause("adaid ASC");
 			if (!radio.equals("all")) {
 				List<Integer> adaids = new ArrayList<Integer>();
 				for (String adaid : admincodes.split(",")) {
