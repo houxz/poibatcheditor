@@ -48,6 +48,7 @@
 	      AND <![CDATA[ ${code}]]>
 	    </if>
     </where>
+    ORDER BY P.OID
     <if test="limit != null and limit > 0" >
       LIMIT #{limit}
     </if>
@@ -113,6 +114,7 @@
 		<foreach collection="owners" item="listItem" open="(" close=")" separator="," >
 			#{listItem, jdbcType=VARCHAR}
 		</foreach>
+	ORDER BY P.OID
 	<if test="limit != null and limit > 0" >
       LIMIT #{limit}
     </if>

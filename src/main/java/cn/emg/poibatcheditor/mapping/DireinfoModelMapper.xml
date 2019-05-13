@@ -37,6 +37,7 @@
 	      AND <![CDATA[ ${code}]]>
 	    </if>
     </where>
+    ORDER BY M.direinfo_id
     <if test="limit != null and limit > 0" >
       LIMIT #{limit}
     </if>
@@ -100,6 +101,7 @@
 				#{listItem, jdbcType=VARCHAR}
 			</foreach>
 		)
+	ORDER BY M.direinfo_id
 	<if test="limit != null and limit > 0" >
       LIMIT #{limit}
     </if>
