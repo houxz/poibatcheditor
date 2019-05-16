@@ -7,11 +7,11 @@
 	<context:component-scan base-package="cn.emg.poibatcheditor" />
 	
 	<context:property-placeholder location="WEB-INF/spring/defaultAuths.properties" ignore-unresolvable="true"/>
-	<context:property-placeholder location="WEB-INF/spring/webapi41.101.properties" ignore-unresolvable="true"/>
+	<context:property-placeholder location="WEB-INF/spring/webapi42.24.properties" ignore-unresolvable="true"/>
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<!-- DB 配置 开始 -->
-	<context:property-placeholder location="WEB-INF/spring/db41.101.properties" ignore-unresolvable="true"/>
+	<context:property-placeholder location="WEB-INF/spring/db42.24.properties" ignore-unresolvable="true"/>
 	
 	<!-- admincode -->
 	<bean id="dataSourceForAdmincode" class="org.apache.commons.dbcp.BasicDataSource"

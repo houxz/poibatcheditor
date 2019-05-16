@@ -34,7 +34,7 @@
 	
 	<!-- Application Loggers -->
 	<logger name="cn.emg">
-		<level value="debug" />
+		<level value="warn" />
 	</logger>
 	
 	<logger name="cn.emg.poibatcheditor.performance" additivity="false">
